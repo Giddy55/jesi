@@ -182,11 +182,11 @@ export function ShsInsights({ userType, onZoneChange }: ShsInsightsProps) {
                     <XAxis dataKey="day" />
                     <YAxis />
                     <ChartTooltip content={<ChartTooltipContent />} />
-                    <Line type="monotone" dataKey="math" stroke="var(--color-math)" strokeWidth={2} />
-                    <Line type="monotone" dataKey="physics" stroke="var(--color-physics)" strokeWidth={2} />
-                    <Line type="monotone" dataKey="chemistry" stroke="var(--color-chemistry)" strokeWidth={2} />
-                    <Line type="monotone" dataKey="biology" stroke="var(--color-biology)" strokeWidth={2} />
-                    <Line type="monotone" dataKey="english" stroke="var(--color-english)" strokeWidth={2} />
+                    <Line type="monotone" dataKey="math" stroke="hsl(var(--primary))" strokeWidth={2} />
+                    <Line type="monotone" dataKey="physics" stroke="hsl(var(--primary))" strokeWidth={2} />
+                    <Line type="monotone" dataKey="chemistry" stroke="hsl(var(--primary))" strokeWidth={2} />
+                    <Line type="monotone" dataKey="biology" stroke="hsl(var(--primary))" strokeWidth={2} />
+                    <Line type="monotone" dataKey="english" stroke="hsl(var(--primary))" strokeWidth={2} />
                   </LineChart>
                 </ResponsiveContainer>
               </ChartContainer>
