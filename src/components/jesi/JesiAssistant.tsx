@@ -25,10 +25,10 @@ export function JesiAssistant({
 
   const getJesiColor = () => {
     switch (variant) {
-      case "encouragement": return "bg-gradient-to-br from-green-100 to-green-200 border-green-300";
-      case "question": return "bg-gradient-to-br from-blue-100 to-blue-200 border-blue-300";
-      case "tip": return "bg-gradient-to-br from-yellow-100 to-yellow-200 border-yellow-300";
-      default: return "bg-gradient-to-br from-purple-100 to-purple-200 border-purple-300";
+      case "encouragement": return "bg-[#E1EEE6] border-green-300";
+      case "question": return "bg-[#E1EEE6] border-blue-300";
+      case "tip": return "bg-[#E1EEE6] border-yellow-300";
+      default: return "bg-[#E1EEE6] border-[#FF7900]/30";
     }
   };
 
@@ -36,12 +36,12 @@ export function JesiAssistant({
     <Card className={`relative ${getJesiColor()} border-2 animate-bounce-in glow-effect`}>
       <div className="p-6">
         <div className="flex items-start gap-4">
-          <div className="w-14 h-14 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center flex-shrink-0 animate-pulse">
+          <div className="w-14 h-14 bg-gradient-to-br from-[#FF7900] to-[#FFA14D] rounded-full flex items-center justify-center flex-shrink-0 animate-pulse">
             <MessageCircle className="w-7 h-7 text-white" />
           </div>
           <div className="flex-1">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="font-bold text-lg text-primary">Jesi AI ✨</h4>
+              <h4 className="font-bold text-lg text-[#FF7900]">Jesi AI ✨</h4>
               {onClose && (
                 <Button
                   variant="ghost"
