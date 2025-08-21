@@ -54,7 +54,7 @@ export function SemiCircleProgress({
         <path
           d={d}
           fill="none"
-          stroke="hsl(var(--muted))"
+          stroke="hsl(var(--primary))"
           strokeWidth={strokeWidth}
           strokeLinecap="round"
         />
