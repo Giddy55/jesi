@@ -4,12 +4,12 @@
 
 @layer base {
   :root {
-    /* 60% - Light green background dominates (friendly learning environment) */
-    --background: 138 24% 90%;
+    /* White background as requested */
+    --background: 0 0% 100%;
     --foreground: 0 0% 5%;
-    --card: 138 24% 92%;
+    --card: 0 0% 100%;
     --card-foreground: 0 0% 5%;
-    --popover: 138 24% 92%;
+    --popover: 0 0% 100%;
     --popover-foreground: 0 0% 5%;
 
     /* 30% - Orange secondary (brand energy) */
@@ -72,12 +72,12 @@
   }
 
   .dark {
-    /* 60% - Light green background dominates */
-    --background: 138 24% 90%;
+    /* White background as requested */
+    --background: 0 0% 100%;
     --foreground: 0 0% 5%;
-    --card: 138 24% 92%;
+    --card: 0 0% 100%;
     --card-foreground: 0 0% 5%;
-    --popover: 138 24% 92%;
+    --popover: 0 0% 100%;
     --popover-foreground: 0 0% 5%;
     
     /* 30% - Orange secondary */
@@ -228,7 +228,7 @@
   /* Background blur utility */
   .bg-blur {
     backdrop-filter: blur(8px);
-    background-color: rgba(225, 238, 230, 0.3);
+    background-color: rgba(255, 255, 255, 0.3);
   }
 }
 
