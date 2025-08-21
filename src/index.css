@@ -1,0 +1,289 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Background and text colors - High contrast for accessibility */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 5%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 5%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 5%;
+
+    /* Primary brand colors - Purple/Violet theme for kids */
+    --primary: 270 95% 65%;
+    --primary-foreground: 0 0% 98%;
+    --primary-light: 280 100% 85%;
+    --primary-glow: 285 100% 75%;
+
+    /* Secondary colors */
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 220 15% 15%;
+
+    /* Muted colors - Better contrast */
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 35%;
+
+    /* Accent colors */
+    --accent: 200 100% 80%;
+    --accent-foreground: 220 15% 15%;
+
+    /* Status colors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --success: 142 76% 50%;
+    --success-foreground: 0 0% 98%;
+    --warning: 38 92% 60%;
+    --warning-foreground: 0 0% 98%;
+    --info: 200 100% 50%;
+    --info-foreground: 0 0% 98%;
+
+    /* Fun learning colors */
+    --fun-pink: 320 100% 80%;
+    --fun-blue: 200 100% 70%;
+    --fun-green: 142 80% 60%;
+    --fun-orange: 25 95% 65%;
+    --fun-yellow: 48 100% 70%;
+
+    /* UI elements - Better contrast and focus */
+    --border: 0 0% 80%;
+    --input: 0 0% 96%;
+    --ring: 270 95% 45%;
+    --radius: 0.75rem;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(270 95% 65%), hsl(200 100% 70%));
+    --gradient-fun: linear-gradient(45deg, hsl(320 100% 80%), hsl(200 100% 70%), hsl(142 80% 60%));
+    --gradient-success: linear-gradient(135deg, hsl(142 76% 50%), hsl(120 60% 70%));
+    --gradient-warm: linear-gradient(135deg, hsl(25 95% 65%), hsl(48 100% 70%));
+
+    /* Shadows */
+    --shadow-glow: 0 0 20px hsl(270 95% 65% / 0.3);
+    --shadow-card: 0 4px 12px hsl(220 15% 15% / 0.1);
+    --shadow-fun: 0 8px 32px hsl(270 95% 65% / 0.2);
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 220 15% 25%;
+    --sidebar-primary: 270 95% 65%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 210 40% 94%;
+    --sidebar-accent-foreground: 220 15% 15%;
+    --sidebar-border: 214 32% 88%;
+    --sidebar-ring: 270 95% 65%;
+  }
+
+  .dark {
+    --background: 224 71% 8%;
+    --foreground: 213 31% 91%;
+    --card: 224 71% 10%;
+    --card-foreground: 213 31% 91%;
+    --popover: 224 71% 10%;
+    --popover-foreground: 213 31% 91%;
+    --primary: 270 95% 65%;
+    --primary-foreground: 224 71% 8%;
+    --secondary: 215 28% 17%;
+    --secondary-foreground: 213 31% 91%;
+    --muted: 215 28% 15%;
+    --muted-foreground: 217 11% 65%;
+    --accent: 200 100% 80%;
+    --accent-foreground: 224 71% 8%;
+    --border: 215 28% 20%;
+    --input: 215 28% 20%;
+    --ring: 270 95% 65%;
+    --sidebar-background: 224 71% 6%;
+    --sidebar-foreground: 213 31% 85%;
+    --sidebar-primary: 270 95% 65%;
+    --sidebar-primary-foreground: 224 71% 8%;
+    --sidebar-accent: 215 28% 15%;
+    --sidebar-accent-foreground: 213 31% 91%;
+    --sidebar-border: 215 28% 20%;
+    --sidebar-ring: 270 95% 65%;
+  }
+}
+
+@layer utilities {
+  /* Animation utilities */
+  .animate-bounce-in {
+    animation: bounce-in 0.6s ease-out;
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.4s ease-out;
+  }
+  
+  .animate-confetti {
+    animation: confetti 1s ease-out;
+  }
+  
+  .hover-lift {
+    transition: transform 0.2s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-4px);
+  }
+  
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .fun-shadow {
+    box-shadow: var(--shadow-fun);
+  }
+  
+  .glow-effect {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  /* Accessibility utilities */
+  .focus-visible-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
+  }
+  
+  .high-contrast {
+    @apply text-foreground bg-background border-border;
+  }
+  
+  .screen-reader-only {
+    @apply sr-only;
+  }
+  
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-bounce-in,
+    .animate-slide-up,
+    .animate-confetti,
+    .hover-lift {
+      animation: none;
+      transition: none;
+    }
+  }
+}
+
+@layer components {
+  /* Subject color classes */
+  .subject-math {
+    --subject-color: var(--fun-blue);
+    --subject-bg: hsl(200 100% 95%);
+  }
+  
+  .subject-english {
+    --subject-color: var(--fun-green);
+    --subject-bg: hsl(142 80% 95%);
+  }
+  
+  .subject-science {
+    --subject-color: var(--primary);
+    --subject-bg: hsl(270 95% 95%);
+  }
+  
+  .subject-social {
+    --subject-color: var(--fun-orange);
+    --subject-bg: hsl(25 95% 95%);
+  }
+
+  /* Mood selector styles */
+  .mood-great {
+    @apply bg-gradient-to-br from-green-100 to-green-200 text-green-800 border-green-300;
+  }
+  
+  .mood-good {
+    @apply bg-gradient-to-br from-blue-100 to-blue-200 text-blue-800 border-blue-300;
+  }
+  
+  .mood-okay {
+    @apply bg-gradient-to-br from-yellow-100 to-yellow-200 text-yellow-800 border-yellow-300;
+  }
+  
+  .mood-confusing {
+    @apply bg-gradient-to-br from-orange-100 to-orange-200 text-orange-800 border-orange-300;
+  }
+  
+  .mood-tough {
+    @apply bg-gradient-to-br from-red-100 to-red-200 text-red-800 border-red-300;
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.3) translateY(20px);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes confetti {
+  0% {
+    transform: rotateZ(0deg) translateY(0px);
+  }
+  100% {
+    transform: rotateZ(360deg) translateY(-100px);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-sans;
+    line-height: 1.6; /* Better readability */
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+    line-height: 1.2;
+  }
+  
+  /* Improved focus styles */
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  [role="button"]:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2;
+  }
+  
+  /* Better link accessibility */
+  a {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
+  }
+  
+  /* Skip link for screen readers */
+  .skip-link {
+    @apply absolute top-0 left-0 bg-primary text-primary-foreground px-4 py-2 text-sm font-medium;
+    transform: translateY(-100%);
+    transition: transform 0.3s;
+  }
+  
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+}
