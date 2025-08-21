@@ -191,23 +191,38 @@
 
   /* Mood selector styles - friendly warm tones with blur */
   .mood-great {
-    @apply bg-secondary/70 text-foreground border-accent backdrop-blur-sm;
+    background-color: hsl(var(--secondary) / 0.7);
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--accent));
+    backdrop-filter: blur(4px);
   }
   
   .mood-good {
-    @apply bg-accent/70 text-foreground border-primary backdrop-blur-sm;
+    background-color: hsl(var(--accent) / 0.7);
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--primary));
+    backdrop-filter: blur(4px);
   }
   
   .mood-okay {
-    @apply bg-primary/20 text-foreground border-primary backdrop-blur-sm;
+    background-color: hsl(var(--primary) / 0.2);
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--primary));
+    backdrop-filter: blur(4px);
   }
   
   .mood-confusing {
-    @apply bg-warning/70 text-foreground border-warning backdrop-blur-sm;
+    background-color: hsl(var(--warning) / 0.7);
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--warning));
+    backdrop-filter: blur(4px);
   }
   
   .mood-tough {
-    @apply bg-destructive/70 text-destructive-foreground border-destructive backdrop-blur-sm;
+    background-color: hsl(var(--destructive) / 0.7);
+    color: hsl(var(--destructive-foreground));
+    border-color: hsl(var(--destructive));
+    backdrop-filter: blur(4px);
   }
 
   /* Background blur utility */
