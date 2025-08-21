@@ -37,7 +37,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
       id: "flashcards", 
       name: "Flashcards", 
       icon: Target, 
-      color: "bg-blue-500", 
+      color: "bg-primary", 
       description: "Quick review with digital flashcards",
       duration: "5-10 min",
       features: ["Spaced repetition", "Progress tracking", "Custom sets"]
@@ -46,7 +46,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
       id: "quiz", 
       name: "Quiz Practice", 
       icon: Brain, 
-      color: "bg-green-500", 
+      color: "bg-secondary", 
       description: "Interactive quizzes with instant feedback",
       duration: "10-15 min",
       features: ["Multiple choice", "True/false", "Short answers"]
@@ -55,7 +55,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
       id: "short-exam", 
       name: "Short Mock Exam", 
       icon: Clock, 
-      color: "bg-orange-500", 
+      color: "bg-primary", 
       description: "Quick 15-minute practice tests",
       duration: "15 min",
       features: ["Timed questions", "Exam format", "Performance analysis"]
@@ -64,7 +64,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
       id: "full-exam", 
       name: "Full Mock Exam", 
       icon: FileText, 
-      color: "bg-purple-500", 
+      color: "bg-accent", 
       description: "Complete exam simulation experience",
       duration: "45-60 min",
       features: ["Full length", "Real exam conditions", "Detailed report"]
@@ -72,9 +72,9 @@ export function PracticeZone({ user }: PracticeZoneProps) {
   ];
 
   const subjects = [
-    { id: "math", name: "Mathematics", topic: "Fractions", color: "bg-blue-500", icon: "📊" },
-    { id: "english", name: "English", topic: "Reading Comprehension", color: "bg-green-500", icon: "📚" },
-    { id: "science", name: "Science", topic: "Plant Biology", color: "bg-purple-500", icon: "🔬" },
+    { id: "math", name: "Mathematics", topic: "Fractions", color: "bg-primary", icon: "📊" },
+    { id: "english", name: "English", topic: "Reading Comprehension", color: "bg-secondary", icon: "📚" },
+    { id: "science", name: "Science", topic: "Plant Biology", color: "bg-accent", icon: "🔬" },
   ];
 
   const questions = [
@@ -107,10 +107,10 @@ export function PracticeZone({ user }: PracticeZoneProps) {
           variant="greeting"
         />
 
-        <Card className="p-8 text-center bg-gradient-to-br from-blue-50 to-purple-50">
+        <Card className="p-8 text-center bg-secondary">
           <div className="mb-6">
-            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Target className="w-8 h-8 text-white" />
+            <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+              <Target className="w-8 h-8 text-primary-foreground" />
             </div>
             <h3 className="text-xl font-semibold mb-2">Ready to Practice?</h3>
             <p className="text-muted-foreground">Pick how you want to practice today!</p>
@@ -118,7 +118,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
           <Button 
             size="lg"
             onClick={() => setCurrentStep("styles")}
-            className="bg-gradient-to-r from-blue-500 to-purple-500 hover:opacity-90"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             Let's Practice! 🎯
           </Button>
@@ -157,7 +157,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
                 <div className="space-y-2">
                   {style.features.map((feature, index) => (
                     <div key={index} className="flex items-center gap-2 text-sm">
-                      <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
+                      <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
                         <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
@@ -169,7 +169,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
 
                 {/* Start Button */}
                 <Button 
-                  className="w-full h-12 text-base font-medium bg-foreground text-background hover:bg-foreground/90"
+                  className="w-full h-12 text-base font-medium bg-primary text-primary-foreground hover:bg-primary/90"
                   onClick={() => {
                     setSelectedStyle(style.id);
                     setCurrentStep("subjects");
@@ -303,14 +303,14 @@ export function PracticeZone({ user }: PracticeZoneProps) {
             
             {/* Solution Section - Only show if answer is selected */}
             {selectedAnswer !== null && (
-              <div className="mt-8 pt-6 border-t bg-blue-50 p-6 rounded-lg">
+              <div className="mt-8 pt-6 border-t bg-secondary p-6 rounded-lg">
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                  <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-sm font-bold">
                     💡
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-blue-800 mb-2">Solution:</h4>
-                    <p className="text-sm text-blue-700">{currentQ.solution}</p>
+                    <h4 className="font-semibold text-secondary-foreground mb-2">Solution:</h4>
+                    <p className="text-sm text-muted-foreground">{currentQ.solution}</p>
                   </div>
                 </div>
               </div>
@@ -328,17 +328,17 @@ export function PracticeZone({ user }: PracticeZoneProps) {
         <p className="text-muted-foreground">Here's how you did</p>
       </div>
 
-      <Card className="p-8 text-center bg-gradient-to-br from-green-50 to-blue-50">
+      <Card className="p-8 text-center bg-secondary">
         <div className="mb-6">
-          <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Trophy className="w-10 h-10 text-white" />
+          <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+            <Trophy className="w-10 h-10 text-primary-foreground" />
           </div>
           <div className="text-4xl font-bold text-primary mb-2">{score}/{questions.length}</div>
           <div className="flex justify-center gap-1 mb-4">
             {[...Array(5)].map((_, i) => (
               <Star 
                 key={i} 
-                className={`w-6 h-6 ${i < Math.ceil((score / questions.length) * 5) ? 'text-yellow-500 fill-current' : 'text-gray-300'}`} 
+                className={`w-6 h-6 ${i < Math.ceil((score / questions.length) * 5) ? 'text-primary fill-current' : 'text-muted-foreground'}`} 
               />
             ))}
           </div>

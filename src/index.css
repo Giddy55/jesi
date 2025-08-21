@@ -19,15 +19,15 @@
     --primary-glow: 30 100% 60%;
 
     /* Secondary colors */
-    --secondary: 143 25% 91%;
+    --secondary: 144 25% 91%;
     --secondary-foreground: 220 15% 15%;
 
     /* Muted colors - Better contrast */
-    --muted: 143 25% 91%;
+    --muted: 144 25% 91%;
     --muted-foreground: 0 0% 35%;
 
     /* Accent colors */
-    --accent: 143 30% 75%;
+    --accent: 144 30% 75%;
     --accent-foreground: 220 15% 15%;
 
     /* Status colors */
