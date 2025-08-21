@@ -219,8 +219,8 @@
   }
   
   .mood-tough {
-    background-color: hsl(0 0% 0% / 0.9);
-    color: hsl(0 0% 100%);
+    background-color: hsl(0 0% 90%);
+    color: hsl(0 0% 0%);
     border-color: hsl(0 0% 0%);
     backdrop-filter: blur(4px);
   }
