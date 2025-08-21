@@ -4,102 +4,103 @@
 
 @layer base {
   :root {
-    /* Background and text colors - High contrast for accessibility */
-    --background: 0 0% 100%;
+    /* 60% - Light green background dominates (friendly learning environment) */
+    --background: 138 24% 90%;
     --foreground: 0 0% 5%;
-    --card: 0 0% 100%;
+    --card: 138 24% 92%;
     --card-foreground: 0 0% 5%;
-    --popover: 0 0% 100%;
+    --popover: 138 24% 92%;
     --popover-foreground: 0 0% 5%;
 
-    /* Primary brand colors - Orange theme */
+    /* 30% - Orange secondary (brand energy) */
     --primary: 30 100% 50%;
     --primary-foreground: 0 0% 98%;
     --primary-light: 30 100% 65%;
     --primary-glow: 30 100% 60%;
+    --secondary: 138 24% 85%;
+    --secondary-foreground: 0 0% 15%;
 
-    /* Secondary colors */
-    --secondary: 144 25% 91%;
-    --secondary-foreground: 220 15% 15%;
-
-    /* Muted colors - Better contrast */
-    --muted: 144 25% 91%;
+    /* Muted colors - keeping friendly green theme */
+    --muted: 138 24% 88%;
     --muted-foreground: 0 0% 35%;
 
-    /* Accent colors */
-    --accent: 144 30% 75%;
-    --accent-foreground: 220 15% 15%;
+    /* 10% - Warm accent (highlight elements) */
+    --accent: 45 100% 80%;
+    --accent-foreground: 0 0% 15%;
 
-    /* Status colors */
+    /* Status colors - friendly warm palette */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --success: 142 76% 50%;
+    --success: 138 76% 50%;
     --success-foreground: 0 0% 98%;
     --warning: 38 92% 60%;
     --warning-foreground: 0 0% 98%;
-    --info: 200 100% 50%;
+    --info: 30 100% 50%;
     --info-foreground: 0 0% 98%;
 
-    /* Fun learning colors */
-    --fun-pink: 320 100% 80%;
-    --fun-blue: 200 100% 70%;
-    --fun-green: 142 80% 60%;
+    /* Friendly learning colors - warm palette only */
+    --fun-warm: 45 100% 80%;
     --fun-orange: 25 95% 65%;
     --fun-yellow: 48 100% 70%;
+    --fun-peach: 20 100% 85%;
 
-    /* UI elements - Better contrast and focus */
-    --border: 0 0% 80%;
-    --input: 0 0% 96%;
+    /* UI elements */
+    --border: 138 24% 80%;
+    --input: 138 24% 94%;
     --ring: 30 100% 45%;
     --radius: 0.75rem;
 
-    /* Gradients */
+    /* Gradients - friendly warm tones */
     --gradient-primary: linear-gradient(135deg, hsl(30 100% 50%), hsl(30 100% 65%));
-    --gradient-fun: linear-gradient(45deg, hsl(320 100% 80%), hsl(200 100% 70%), hsl(142 80% 60%));
-    --gradient-success: linear-gradient(135deg, hsl(142 76% 50%), hsl(120 60% 70%));
-    --gradient-warm: linear-gradient(135deg, hsl(30 100% 50%), hsl(30 100% 65%));
+    --gradient-warm: linear-gradient(135deg, hsl(30 100% 50%), hsl(45 100% 80%));
+    --gradient-friendly: linear-gradient(135deg, hsl(138 24% 90%), hsl(45 100% 85%));
 
-    /* Shadows */
+    /* Shadows with blur */
     --shadow-glow: 0 0 20px hsl(30 100% 50% / 0.3);
-    --shadow-card: 0 4px 12px hsl(220 15% 15% / 0.1);
-    --shadow-fun: 0 8px 32px hsl(30 100% 50% / 0.2);
+    --shadow-card: 0 4px 12px hsl(0 0% 0% / 0.1);
+    --shadow-friendly: 5px 5px 15px hsl(0 0% 0% / 0.3);
 
     /* Sidebar */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 220 15% 25%;
+    --sidebar-background: 138 24% 88%;
+    --sidebar-foreground: 0 0% 15%;
     --sidebar-primary: 30 100% 50%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 210 40% 94%;
-    --sidebar-accent-foreground: 220 15% 15%;
-    --sidebar-border: 214 32% 88%;
+    --sidebar-accent: 138 24% 85%;
+    --sidebar-accent-foreground: 0 0% 15%;
+    --sidebar-border: 138 24% 80%;
     --sidebar-ring: 30 100% 50%;
   }
 
   .dark {
-    --background: 224 71% 8%;
-    --foreground: 213 31% 91%;
-    --card: 224 71% 10%;
-    --card-foreground: 213 31% 91%;
-    --popover: 224 71% 10%;
-    --popover-foreground: 213 31% 91%;
+    /* 60% - Light green background dominates */
+    --background: 138 24% 90%;
+    --foreground: 0 0% 5%;
+    --card: 138 24% 92%;
+    --card-foreground: 0 0% 5%;
+    --popover: 138 24% 92%;
+    --popover-foreground: 0 0% 5%;
+    
+    /* 30% - Orange secondary */
     --primary: 30 100% 50%;
-    --primary-foreground: 224 71% 8%;
-    --secondary: 215 28% 17%;
-    --secondary-foreground: 213 31% 91%;
-    --muted: 215 28% 15%;
-    --muted-foreground: 217 11% 65%;
-    --accent: 200 100% 80%;
-    --accent-foreground: 224 71% 8%;
-    --border: 215 28% 20%;
-    --input: 215 28% 20%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 138 24% 85%;
+    --secondary-foreground: 0 0% 15%;
+    --muted: 138 24% 88%;
+    --muted-foreground: 0 0% 35%;
+    
+    /* 10% - Warm accent */
+    --accent: 45 100% 80%;
+    --accent-foreground: 0 0% 15%;
+    --border: 138 24% 80%;
+    --input: 138 24% 94%;
     --ring: 30 100% 50%;
-    --sidebar-background: 224 71% 6%;
-    --sidebar-foreground: 213 31% 85%;
+    --sidebar-background: 138 24% 88%;
+    --sidebar-foreground: 0 0% 15%;
     --sidebar-primary: 30 100% 50%;
-    --sidebar-primary-foreground: 224 71% 8%;
-    --sidebar-accent: 215 28% 15%;
-    --sidebar-accent-foreground: 213 31% 91%;
-    --sidebar-border: 215 28% 20%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 138 24% 85%;
+    --sidebar-accent-foreground: 0 0% 15%;
+    --sidebar-border: 138 24% 80%;
     --sidebar-ring: 30 100% 50%;
   }
 }
@@ -167,46 +168,52 @@
 }
 
 @layer components {
-  /* Subject color classes */
+  /* Subject color classes - friendly warm palette */
   .subject-math {
-    --subject-color: var(--fun-blue);
-    --subject-bg: hsl(200 100% 95%);
+    --subject-color: hsl(45 100% 80%);
+    --subject-bg: hsl(45 100% 95%);
   }
   
   .subject-english {
-    --subject-color: var(--fun-green);
-    --subject-bg: hsl(142 80% 95%);
-  }
-  
-  .subject-science {
-    --subject-color: var(--primary);
+    --subject-color: hsl(30 100% 50%);
     --subject-bg: hsl(30 100% 95%);
   }
   
-  .subject-social {
-    --subject-color: var(--fun-orange);
+  .subject-science {
+    --subject-color: hsl(25 95% 65%);
     --subject-bg: hsl(25 95% 95%);
   }
+  
+  .subject-social {
+    --subject-color: hsl(48 100% 70%);
+    --subject-bg: hsl(48 100% 95%);
+  }
 
-  /* Mood selector styles */
+  /* Mood selector styles - friendly warm tones with blur */
   .mood-great {
-    @apply bg-gradient-to-br from-green-100 to-green-200 text-green-800 border-green-300;
+    @apply bg-secondary/70 text-foreground border-accent backdrop-blur-sm;
   }
   
   .mood-good {
-    @apply bg-gradient-to-br from-blue-100 to-blue-200 text-blue-800 border-blue-300;
+    @apply bg-accent/70 text-foreground border-primary backdrop-blur-sm;
   }
   
   .mood-okay {
-    @apply bg-gradient-to-br from-yellow-100 to-yellow-200 text-yellow-800 border-yellow-300;
+    @apply bg-primary/20 text-foreground border-primary backdrop-blur-sm;
   }
   
   .mood-confusing {
-    @apply bg-gradient-to-br from-orange-100 to-orange-200 text-orange-800 border-orange-300;
+    @apply bg-warning/70 text-foreground border-warning backdrop-blur-sm;
   }
   
   .mood-tough {
-    @apply bg-gradient-to-br from-red-100 to-red-200 text-red-800 border-red-300;
+    @apply bg-destructive/70 text-destructive-foreground border-destructive backdrop-blur-sm;
+  }
+
+  /* Background blur utility */
+  .bg-blur {
+    backdrop-filter: blur(8px);
+    background-color: rgba(225, 238, 230, 0.3);
   }
 }
 

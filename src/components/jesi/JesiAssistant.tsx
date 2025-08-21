@@ -25,10 +25,10 @@ export function JesiAssistant({
 
   const getJesiColor = () => {
     switch (variant) {
-      case "encouragement": return "bg-[#E1EEE6] border-green-300";
-      case "question": return "bg-[#E1EEE6] border-blue-300";
-      case "tip": return "bg-[#E1EEE6] border-yellow-300";
-      default: return "bg-[#E1EEE6] border-[#FF7900]/30";
+      case "encouragement": return "bg-blur border-accent";
+      case "question": return "bg-blur border-primary";
+      case "tip": return "bg-blur border-warning";
+      default: return "bg-blur border-primary/30";
     }
   };
 
