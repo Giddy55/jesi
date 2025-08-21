@@ -33,7 +33,7 @@ export function JesiAssistant({
   };
 
   return (
-    <Card className={`relative ${getJesiColor()} border-2 animate-bounce-in glow-effect`}>
+    <Card className={`relative ${getJesiColor()} border-2 animate-bounce-in`} style={{ boxShadow: '5px 5px 0px rgba(0, 0, 0, 0.3)' }}>
       <div className="p-6">
         <div className="flex items-start gap-4">
           <div className="w-14 h-14 bg-gradient-to-br from-[#FF7900] to-[#FFA14D] rounded-full flex items-center justify-center flex-shrink-0 animate-pulse">
