@@ -12,133 +12,60 @@ interface RedemptionZoneProps {
   onCoinsUpdate: (newTotal: number) => void;
 }
 
-interface RedemptionTier {
-  id: string;
-  name: string;
-  description: string;
-  benefits: string[];
-  minCoins: number;
-  icon: any;
-  color: string;
-  bgGradient: string;
-}
+const REDEMPTION_THRESHOLD = 1000;
 
-const redemptionTiers: RedemptionTier[] = [
-  {
-    id: "bronze",
-    name: "Bronze Achievement",
-    description: "A great start to your learning journey!",
-    benefits: [
-      "Certificate of Achievement",
-      "Motivational message from Jesi",
-      "Study tips collection",
-      "Fun learning facts"
-    ],
-    minCoins: 100,
-    icon: Star,
-    color: "text-amber-600",
-    bgGradient: "from-amber-100 to-amber-200"
-  },
-  {
-    id: "silver",
-    name: "Silver Excellence",
-    description: "Outstanding dedication to learning!",
-    benefits: [
-      "Silver Certificate with your name",
-      "Personal study session with Jesi (30 mins)",
-      "Exclusive learning resources",
-      "Progress milestone badge",
-      "Custom motivational playlist"
-    ],
-    minCoins: 250,
-    icon: Trophy,
-    color: "text-gray-600",
-    bgGradient: "from-gray-100 to-gray-200"
-  },
-  {
-    id: "gold",
-    name: "Gold Mastery",
-    description: "Exceptional learning achievement!",
-    benefits: [
-      "Gold Certificate of Excellence",
-      "Extended Jesi mentoring session (1 hour)",
-      "Access to advanced learning modules",
-      "Special recognition badge",
-      "Learning strategy consultation",
-      "Priority support access"
-    ],
-    minCoins: 500,
-    icon: Crown,
-    color: "text-yellow-600",
-    bgGradient: "from-yellow-100 to-yellow-200"
-  },
-  {
-    id: "platinum",
-    name: "Platinum Scholar",
-    description: "The ultimate learning achievement!",
-    benefits: [
-      "Platinum Scholar Certificate",
-      "Premium Jesi mentoring package (3 sessions)",
-      "Exclusive scholar resources library",
-      "Master learner recognition",
-      "Custom learning path design",
-      "VIP support access",
-      "Learning achievement showcase"
-    ],
-    minCoins: 1000,
-    icon: Sparkles,
-    color: "text-purple-600",
-    bgGradient: "from-purple-100 to-purple-200"
-  }
-];
+const specialReward = {
+  name: "Ultimate Scholar Achievement",
+  description: "Congratulations on reaching 1000 coins! You've proven your dedication to learning.",
+  benefits: [
+    "Personalized Certificate of Excellence",
+    "3 Premium mentoring sessions with Jesi",
+    "Access to exclusive advanced learning modules",
+    "Special Scholar recognition badge",
+    "Custom learning path designed just for you",
+    "VIP priority support access",
+    "Exclusive learning resources library",
+    "Achievement showcase on your profile"
+  ],
+  icon: Crown,
+  color: "text-yellow-600",
+  bgGradient: "from-yellow-100 via-yellow-200 to-yellow-300"
+};
 
 export function RedemptionZone({ totalCoins, onCoinsUpdate }: RedemptionZoneProps) {
-  const [selectedTier, setSelectedTier] = useState<RedemptionTier | null>(null);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-  const [redeemedTiers, setRedeemedTiers] = useState<string[]>([]);
+  const [hasRedeemed, setHasRedeemed] = useState(false);
   const { toast } = useToast();
 
-  const getAvailableTiers = () => {
-    return redemptionTiers.filter(tier => 
-      totalCoins >= tier.minCoins && !redeemedTiers.includes(tier.id)
-    );
-  };
-
-  const getUpcomingTiers = () => {
-    return redemptionTiers.filter(tier => 
-      totalCoins < tier.minCoins && !redeemedTiers.includes(tier.id)
-    );
-  };
+  const canRedeem = totalCoins >= REDEMPTION_THRESHOLD;
+  const coinsNeeded = REDEMPTION_THRESHOLD - totalCoins;
+  const progressPercentage = Math.min((totalCoins / REDEMPTION_THRESHOLD) * 100, 100);
 
   const triggerSuccessConfetti = () => {
     confetti({
-      particleCount: 150,
-      spread: 80,
+      particleCount: 200,
+      spread: 100,
       origin: { y: 0.6 },
       colors: ['#FFD700', '#FFA500', '#FF8C00', '#87CEEB', '#98FB98']
     });
   };
 
-  const handleRedeem = (tier: RedemptionTier) => {
-    setSelectedTier(tier);
+  const handleRedeem = () => {
     setShowConfirmDialog(true);
   };
 
   const confirmRedemption = () => {
-    if (selectedTier) {
-      // Redeem ALL coins for the reward
-      onCoinsUpdate(0);
-      setRedeemedTiers([...redeemedTiers, selectedTier.id]);
-      
-      triggerSuccessConfetti();
-      toast({
-        title: `🎉 ${selectedTier.name} Unlocked!`,
-        description: `Congratulations! You've redeemed ${totalCoins} coins for ${selectedTier.name}!`,
-      });
-      
-      setShowConfirmDialog(false);
-      setSelectedTier(null);
-    }
+    // Redeem ALL coins for the reward
+    onCoinsUpdate(0);
+    setHasRedeemed(true);
+    
+    triggerSuccessConfetti();
+    toast({
+      title: `🎉 ${specialReward.name} Unlocked!`,
+      description: `Congratulations! You've redeemed ${totalCoins} coins for your Ultimate Achievement!`,
+    });
+    
+    setShowConfirmDialog(false);
   };
 
   return (
@@ -146,11 +73,11 @@ export function RedemptionZone({ totalCoins, onCoinsUpdate }: RedemptionZoneProp
       {/* Header */}
       <div className="text-center">
         <h1 className="text-4xl font-bold text-primary mb-4 flex items-center justify-center gap-3">
-          <ShoppingBag className="w-10 h-10" />
-          Coin Redemption Center
+          <Crown className="w-10 h-10" />
+          Ultimate Achievement Center
         </h1>
         <p className="text-lg text-muted-foreground mb-6">
-          Redeem all your coins for amazing achievement rewards!
+          Reach 1000 coins to unlock your Ultimate Scholar Achievement!
         </p>
         
         {/* Current Coins Display */}
@@ -159,172 +86,135 @@ export function RedemptionZone({ totalCoins, onCoinsUpdate }: RedemptionZoneProp
             <Coins className="w-8 h-8" />
             <div>
               <p className="text-sm opacity-90">Your Total Balance</p>
-              <p className="text-3xl font-bold">{totalCoins} Coins</p>
+              <p className="text-3xl font-bold">{totalCoins} / {REDEMPTION_THRESHOLD} Coins</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Available Redemptions */}
-      {getAvailableTiers().length > 0 && (
-        <Card>
+      {/* Progress Towards 1000 Coins */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-center">Your Progress</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            {/* Progress Bar */}
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Current Progress</span>
+                <span>{Math.round(progressPercentage)}%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-4">
+                <div 
+                  className="bg-gradient-to-r from-yellow-400 to-yellow-600 h-4 rounded-full transition-all duration-500 ease-out"
+                  style={{ width: `${progressPercentage}%` }}
+                ></div>
+              </div>
+              <div className="text-center text-sm text-muted-foreground">
+                {canRedeem ? (
+                  <span className="text-green-600 font-semibold">🎉 Ready to redeem!</span>
+                ) : (
+                  <span>You need {coinsNeeded} more coins to unlock your achievement</span>
+                )}
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Ultimate Achievement Available */}
+      {canRedeem && !hasRedeemed && (
+        <Card className="border-4 border-yellow-300 shadow-lg">
           <CardHeader>
-            <CardTitle className="text-green-600 flex items-center gap-2">
+            <CardTitle className="text-green-600 flex items-center gap-2 text-xl">
               <CheckCircle className="w-6 h-6" />
-              Available to Redeem Now!
+              🎉 Ultimate Achievement Ready!
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {getAvailableTiers().map((tier) => {
-                const IconComponent = tier.icon;
-                return (
-                  <Card key={tier.id} className={`bg-gradient-to-br ${tier.bgGradient} border-2 hover-lift cursor-pointer transition-all duration-300 hover:shadow-lg`}>
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-md">
-                            <IconComponent className={`w-6 h-6 ${tier.color}`} />
-                          </div>
-                          <div>
-                            <CardTitle className="text-xl">{tier.name}</CardTitle>
-                            <p className="text-sm text-muted-foreground">{tier.description}</p>
-                          </div>
-                        </div>
-                        <Badge variant="secondary" className="bg-green-500 text-white">
-                          Ready!
-                        </Badge>
-                      </div>
-                    </CardHeader>
-                    
-                    <CardContent>
-                      <div className="space-y-3 mb-4">
-                        <p className="font-semibold text-gray-700">What you'll get:</p>
-                        <ul className="space-y-1">
-                          {tier.benefits.map((benefit, index) => (
-                            <li key={index} className="flex items-center gap-2 text-sm">
-                              <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                              {benefit}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Coins className="w-5 h-5 text-yellow-500" />
-                          <span className="font-bold">Costs all {totalCoins} coins</span>
-                        </div>
-                        
-                        <Button
-                          onClick={() => handleRedeem(tier)}
-                          className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
-                        >
-                          Redeem Now
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Upcoming Rewards */}
-      {getUpcomingTiers().length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-blue-600">Keep Learning to Unlock!</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {getUpcomingTiers().map((tier) => {
-                const IconComponent = tier.icon;
-                const coinsNeeded = tier.minCoins - totalCoins;
+            <Card className={`bg-gradient-to-br ${specialReward.bgGradient} border-2 border-yellow-400 shadow-lg`}>
+              <CardHeader>
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                    <Crown className={`w-8 h-8 ${specialReward.color}`} />
+                  </div>
+                  <div>
+                    <CardTitle className="text-2xl">{specialReward.name}</CardTitle>
+                    <p className="text-muted-foreground">{specialReward.description}</p>
+                  </div>
+                </div>
+              </CardHeader>
+              
+              <CardContent>
+                <div className="space-y-4 mb-6">
+                  <p className="font-semibold text-gray-700 text-lg">🎁 What you'll receive:</p>
+                  <ul className="space-y-2">
+                    {specialReward.benefits.map((benefit, index) => (
+                      <li key={index} className="flex items-center gap-3 text-sm">
+                        <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                        <span className="font-medium">{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
                 
-                return (
-                  <Card key={tier.id} className={`bg-gradient-to-br ${tier.bgGradient} opacity-60 border-2 border-dashed`}>
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-md">
-                            <IconComponent className={`w-6 h-6 ${tier.color}`} />
-                          </div>
-                          <div>
-                            <CardTitle className="text-xl">{tier.name}</CardTitle>
-                            <p className="text-sm text-muted-foreground">{tier.description}</p>
-                          </div>
-                        </div>
-                        <Badge variant="outline">
-                          Need {coinsNeeded} more coins
-                        </Badge>
-                      </div>
-                    </CardHeader>
-                    
-                    <CardContent>
-                      <div className="space-y-3 mb-4">
-                        <p className="font-semibold text-gray-700">What you'll get:</p>
-                        <ul className="space-y-1">
-                          {tier.benefits.slice(0, 3).map((benefit, index) => (
-                            <li key={index} className="flex items-center gap-2 text-sm">
-                              <CheckCircle className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                              {benefit}
-                            </li>
-                          ))}
-                          {tier.benefits.length > 3 && (
-                            <li className="text-sm text-gray-500">+ {tier.benefits.length - 3} more benefits...</li>
-                          )}
-                        </ul>
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Coins className="w-5 h-5 text-yellow-500" />
-                          <span className="font-bold">Requires {tier.minCoins} coins</span>
-                        </div>
-                        
-                        <Button disabled variant="outline">
-                          Keep Learning!
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Coins className="w-6 h-6 text-yellow-500" />
+                    <span className="font-bold text-lg">Costs all {totalCoins} coins</span>
+                  </div>
+                  
+                  <Button
+                    onClick={handleRedeem}
+                    size="lg"
+                    className="bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-white font-bold shadow-lg hover:shadow-xl transition-all"
+                  >
+                    🏆 Claim Your Achievement
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Already Redeemed Achievement */}
+      {hasRedeemed && (
+        <Card className="border-4 border-green-300 bg-gradient-to-br from-green-50 to-green-100">
+          <CardHeader>
+            <CardTitle className="text-green-600 flex items-center gap-2 text-xl">
+              <Trophy className="w-6 h-6" />
+              🎉 Achievement Unlocked!
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-center py-8">
+              <Crown className="w-20 h-20 text-yellow-600 mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-green-700 mb-2">{specialReward.name}</h3>
+              <p className="text-green-600 font-semibold">✅ Successfully Redeemed</p>
+              <p className="text-sm text-muted-foreground mt-2">
+                Congratulations on your dedication to learning! Keep earning coins for future achievements.
+              </p>
             </div>
           </CardContent>
         </Card>
       )}
 
-      {/* Already Redeemed */}
-      {redeemedTiers.length > 0 && (
+      {/* Motivational Message for Low Coins */}
+      {totalCoins > 0 && totalCoins < REDEMPTION_THRESHOLD && (
         <Card>
-          <CardHeader>
-            <CardTitle className="text-purple-600">Your Achievements</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {redemptionTiers
-                .filter(tier => redeemedTiers.includes(tier.id))
-                .map((tier) => {
-                  const IconComponent = tier.icon;
-                  return (
-                    <div key={tier.id} className={`bg-gradient-to-br ${tier.bgGradient} p-4 rounded-lg border-2 border-green-300`}>
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md">
-                          <IconComponent className={`w-5 h-5 ${tier.color}`} />
-                        </div>
-                        <div>
-                          <p className="font-bold">{tier.name}</p>
-                          <p className="text-sm text-green-600">✅ Redeemed</p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+          <CardContent className="text-center py-8">
+            <Sparkles className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-primary mb-2">Keep Learning!</h3>
+            <p className="text-muted-foreground mb-4">
+              You're doing great! Complete more activities in the Streak Zone to reach 1000 coins.
+            </p>
+            <div className="bg-blue-50 p-4 rounded-lg border inline-block">
+              <p className="text-sm text-blue-800">
+                💡 <strong>Tip:</strong> Each completed activity earns you coins. Stay consistent to reach your goal faster!
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -335,9 +225,9 @@ export function RedemptionZone({ totalCoins, onCoinsUpdate }: RedemptionZoneProp
         <Card>
           <CardContent className="text-center py-12">
             <Coins className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-600 mb-2">No Coins to Redeem</h3>
+            <h3 className="text-xl font-bold text-gray-600 mb-2">Start Your Journey!</h3>
             <p className="text-muted-foreground">
-              Complete activities in the Streak Zone to earn coins!
+              Complete activities in the Streak Zone to start earning coins toward your Ultimate Achievement!
             </p>
           </CardContent>
         </Card>
@@ -347,24 +237,29 @@ export function RedemptionZone({ totalCoins, onCoinsUpdate }: RedemptionZoneProp
       <Dialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Confirm Redemption</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <Crown className="w-6 h-6 text-yellow-600" />
+              Confirm Ultimate Achievement
+            </DialogTitle>
             <DialogDescription>
-              {selectedTier && (
-                <div className="space-y-4">
-                  <p>
-                    Are you sure you want to redeem <strong>ALL {totalCoins} coins</strong> for <strong>{selectedTier.name}</strong>?
+              <div className="space-y-4">
+                <p className="text-lg">
+                  Are you sure you want to redeem <strong>ALL {totalCoins} coins</strong> for your <strong>{specialReward.name}</strong>?
+                </p>
+                <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                  <p className="text-sm text-yellow-800 font-semibold flex items-center gap-2">
+                    ⚠️ Important Information:
                   </p>
-                  <div className="bg-yellow-50 p-4 rounded-lg border">
-                    <p className="text-sm text-yellow-800 font-semibold">⚠️ Important:</p>
-                    <p className="text-sm text-yellow-700">
-                      This will use ALL your coins. You'll start fresh with 0 coins after redemption.
-                    </p>
-                  </div>
-                  <p className="text-sm text-gray-600">
-                    You can always earn more coins by completing activities!
+                  <p className="text-sm text-yellow-700 mt-1">
+                    This will use ALL your coins and reset your balance to 0. You can always earn more coins by completing activities!
                   </p>
                 </div>
-              )}
+                <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                  <p className="text-sm text-green-800 font-semibold">
+                    🎁 You'll receive all the amazing benefits listed above!
+                  </p>
+                </div>
+              </div>
             </DialogDescription>
           </DialogHeader>
           <div className="flex gap-3 justify-end">
@@ -373,9 +268,9 @@ export function RedemptionZone({ totalCoins, onCoinsUpdate }: RedemptionZoneProp
             </Button>
             <Button 
               onClick={confirmRedemption}
-              className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
+              className="bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-white font-bold"
             >
-              Yes, Redeem All Coins
+              🏆 Yes, Claim My Achievement!
             </Button>
           </div>
         </DialogContent>
