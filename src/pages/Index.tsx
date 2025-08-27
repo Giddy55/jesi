@@ -27,7 +27,7 @@ const Index = () => {
       case "welcome":
         return <ShsWelcome user={user} onZoneChange={setActiveZone} />;
       case "class": 
-        return <ClassZone userType={userType} user={user} />;
+        return <ClassZone userType={userType} user={user} onZoneChange={setActiveZone} />;
       case "learn": 
         return <LearnZone onZoneChange={setActiveZone} />;
       case "practice": 
@@ -37,7 +37,7 @@ const Index = () => {
       case "insights": 
         return <InsightZone userType={userType} user={user} onZoneChange={setActiveZone} />;
       default: 
-        return user?.level === "shs" ? <ShsWelcome user={user} onZoneChange={setActiveZone} /> : <ClassZone userType={userType} user={user} />;
+        return user?.level === "shs" ? <ShsWelcome user={user} onZoneChange={setActiveZone} /> : <ClassZone userType={userType} user={user} onZoneChange={setActiveZone} />;
     }
   };
 

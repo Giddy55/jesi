@@ -17,9 +17,10 @@ type UserType = "student" | "parent" | "admin";
 interface ClassZoneProps {
   userType?: UserType;
   user?: any;
+  onZoneChange?: (zone: string) => void;
 }
 
-export function ClassZone({ userType = "student", user }: ClassZoneProps) {
+export function ClassZone({ userType = "student", user, onZoneChange }: ClassZoneProps) {
   // Check if user is SHS student
   const isShsStudent = user?.level === "shs";
   
@@ -781,6 +782,18 @@ export function ClassZone({ userType = "student", user }: ClassZoneProps) {
           mood={supportMood}
           selectedSubject={selectedSubject}
           onSupportSelected={handleSupportSelected}
+          onNavigateToPractice={() => onZoneChange?.("practice")}
+          onOpenChatbot={() => {
+            // Find and trigger the floating chatbot
+            const chatbot = document.querySelector('[data-chatbot-trigger]');
+            if (chatbot) {
+              (chatbot as HTMLElement).click();
+            }
+          }}
+          onNavigateToClass={() => {
+            setCurrentStep("subjects");
+            setShowSupportDialog(false);
+          }}
         />
       </div>
     );
