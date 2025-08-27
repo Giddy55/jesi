@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { BookOpen, GraduationCap, Target, BarChart3, User, Menu, X, Flame, LogOut, Coins } from "lucide-react";
+import coinsIcon from "@/assets/coins-icon.png";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -51,7 +52,7 @@ export function Navigation({ activeZone, onZoneChange, userType, user, onLogout,
         <div className="flex items-center gap-3">
           {/* Coins Display - Mobile */}
           <div className="flex items-center gap-1 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-            <Coins className="w-4 h-4" />
+            <img src={coinsIcon} alt="Coins" className="w-4 h-4" />
             <span>{totalCoins}</span>
           </div>
           
@@ -156,7 +157,7 @@ export function Navigation({ activeZone, onZoneChange, userType, user, onLogout,
           <div className="pt-6">
             <div className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white p-4 rounded-xl text-center">
               <div className="flex items-center justify-center gap-2 mb-2">
-                <Coins className="w-6 h-6" />
+                <img src={coinsIcon} alt="Coins" className="w-6 h-6" />
                 <span className="text-lg font-bold">{totalCoins}</span>
               </div>
               <p className="text-sm opacity-90">Your Coins</p>
