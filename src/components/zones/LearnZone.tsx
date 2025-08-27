@@ -485,92 +485,155 @@ export function LearnZone({ onZoneChange }: LearnZoneProps) {
         <Button variant="outline" onClick={() => setCurrentStep("content")}>
           ← Back
         </Button>
-        <h2 className="text-xl font-bold">Chat with Jesi AI 💬</h2>
+        <div className="text-center">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+            Chat with Jesi AI 💬
+          </h2>
+          <p className="text-muted-foreground">Your personal AI tutor is here to help!</p>
+        </div>
       </div>
 
-      <JesiAssistant 
-        message="Got questions? Ask me anything you're learning about! I'm here to help you understand better 🤓"
-        variant="question"
-      />
-
-      {/* Chat Messages */}
-      {chatMessages.length > 0 && (
-        <Card className="p-4 max-h-96 overflow-y-auto">
-          <div className="space-y-4">
-            {chatMessages.map((msg, index) => (
-              <div key={index} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-                {msg.type === 'user' ? (
-                  <div className="bg-primary text-primary-foreground px-4 py-2 rounded-lg max-w-[80%] text-sm">
-                    {msg.content}
-                  </div>
-                ) : (
-                  <div className="max-w-[80%]">
-                    <JesiAssistant 
-                      message={msg.content}
-                      variant="question"
-                    />
-                  </div>
-                )}
-              </div>
-            ))}
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="flex items-center gap-2 bg-muted text-muted-foreground px-4 py-2 rounded-lg">
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span className="text-sm">Jesi is thinking...</span>
+      {/* Enhanced Chat Interface */}
+      <div className="space-y-6">
+        {/* Welcome Message - Only show if no conversation yet */}
+        {chatMessages.length === 0 && (
+          <Card className="bg-gradient-to-r from-purple-50 to-pink-50 border-purple-200">
+            <div className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <MessageCircle className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-bold text-lg text-purple-700 mb-2">Jesi AI ✨</h4>
+                  <p className="text-gray-700 leading-relaxed">
+                    Hi {name}! 👋 I'm here to help you learn about <strong>{selectedTopic || 'your chosen topic'}</strong> in <strong>{selectedSubject || 'Mathematics'}</strong>. 
+                    Ask me anything - I can explain concepts, give examples, or help with problems you're stuck on!
+                  </p>
                 </div>
               </div>
-            )}
+            </div>
+          </Card>
+        )}
+
+        {/* Chat Messages - Enhanced Design */}
+        {chatMessages.length > 0 && (
+          <Card className="border-2 border-purple-100">
+            <div className="p-6 max-h-[500px] overflow-y-auto space-y-4">
+              {chatMessages.map((msg, index) => (
+                <div key={index} className={`flex gap-4 ${msg.type === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                  {/* Avatar */}
+                  <div className="flex-shrink-0">
+                    {msg.type === 'user' ? (
+                      <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                        <span className="text-white text-sm font-bold">{name?.charAt(0) || 'U'}</span>
+                      </div>
+                    ) : (
+                      <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                        <MessageCircle className="w-4 h-4 text-white" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Message Bubble */}
+                  <div className={`flex-1 max-w-[80%] ${msg.type === 'user' ? 'text-right' : 'text-left'}`}>
+                    <div className={`inline-block p-4 rounded-2xl shadow-sm ${
+                      msg.type === 'user' 
+                        ? 'bg-blue-500 text-white rounded-br-lg' 
+                        : 'bg-white border border-purple-100 rounded-bl-lg'
+                    }`}>
+                      <p className={`text-sm leading-relaxed ${msg.type === 'user' ? 'text-white' : 'text-gray-700'}`}>
+                        {msg.content}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              
+              {/* Loading indicator */}
+              {isLoading && (
+                <div className="flex gap-4">
+                  <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                    <MessageCircle className="w-4 h-4 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="inline-block bg-white border border-purple-100 p-4 rounded-2xl rounded-bl-lg shadow-sm">
+                      <div className="flex items-center gap-2 text-gray-500">
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span className="text-sm">Jesi is thinking...</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </Card>
+        )}
+
+        {/* Quick Questions - Enhanced */}
+        <Card className="border-2 border-blue-100">
+          <div className="p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <span className="text-blue-600 text-lg">💡</span>
+              </div>
+              <h3 className="font-bold text-lg text-blue-700">Quick Questions</h3>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {commonQuestions.map((question, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  className="text-left justify-start h-auto p-4 border-blue-200 hover:bg-blue-50 hover:border-blue-300 transition-all"
+                  onClick={() => handleChatQuestion(question)}
+                  disabled={isLoading}
+                >
+                  <span className="text-blue-600 mr-2">❓</span>
+                  {question}
+                </Button>
+              ))}
+            </div>
           </div>
         </Card>
-      )}
 
-      <Card className="p-6">
-        <div className="space-y-4">
-          <h3 className="font-semibold">Quick Questions:</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {commonQuestions.map((question, index) => (
-              <Button
-                key={index}
-                variant="outline"
-                className="text-left justify-start h-auto p-3 focus-visible-ring"
-                onClick={() => handleChatQuestion(question)}
-                disabled={isLoading}
-              >
-                {question}
-              </Button>
-            ))}
+        {/* Custom Question Input - Enhanced */}
+        <Card className="border-2 border-green-100 bg-gradient-to-r from-green-50 to-emerald-50">
+          <div className="p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                <span className="text-green-600 text-lg">💬</span>
+              </div>
+              <h3 className="font-bold text-lg text-green-700">Ask Your Own Question</h3>
+            </div>
+            <div className="space-y-3">
+              <div className="flex gap-3">
+                <Input
+                  placeholder={`Ask me anything about ${selectedTopic || 'this topic'}...`}
+                  value={chatQuestion}
+                  onChange={(e) => setChatQuestion(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleChatQuestion(chatQuestion)}
+                  className="flex-1 border-green-200 focus:border-green-400 focus:ring-green-200"
+                  disabled={isLoading}
+                />
+                <Button 
+                  onClick={() => handleChatQuestion(chatQuestion)}
+                  disabled={isLoading || !chatQuestion.trim()}
+                  className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-6"
+                >
+                  {isLoading ? (
+                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  ) : (
+                    <Send className="w-4 h-4 mr-2" />
+                  )}
+                  Ask Jesi
+                </Button>
+              </div>
+              <p className="text-sm text-green-600">
+                💡 Try asking: "Can you give me a real-world example?" or "What's the easiest way to remember this?"
+              </p>
+            </div>
           </div>
-        </div>
-      </Card>
-
-      <Card className="p-6">
-        <div className="space-y-4">
-          <h3 className="font-semibold">Ask your own question:</h3>
-          <div className="flex gap-3">
-            <Input
-              placeholder="Type your question here..."
-              value={chatQuestion}
-              onChange={(e) => setChatQuestion(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleChatQuestion(chatQuestion)}
-              className="flex-1 focus-visible-ring"
-              disabled={isLoading}
-            />
-            <Button 
-              onClick={() => handleChatQuestion(chatQuestion)}
-              disabled={isLoading || !chatQuestion.trim()}
-              className="focus-visible-ring"
-            >
-              {isLoading ? (
-                <Loader2 className="w-4 h-4 animate-spin mr-2" />
-              ) : (
-                <Send className="w-4 h-4 mr-2" />
-              )}
-              Ask
-            </Button>
-          </div>
-        </div>
-      </Card>
+        </Card>
+      </div>
     </div>
   );
 }

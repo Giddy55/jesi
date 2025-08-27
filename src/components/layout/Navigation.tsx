@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { BookOpen, GraduationCap, Target, BarChart3, User, Menu, X, Flame, LogOut, Coins, MessageCircle } from "lucide-react";
+import { BookOpen, GraduationCap, Target, BarChart3, User, Menu, X, Flame, LogOut, Coins } from "lucide-react";
 import coinsIcon from "@/assets/coins-icon.png";
 import {
   DropdownMenu,
@@ -29,7 +29,6 @@ export function Navigation({ activeZone, onZoneChange, userType, user, onLogout,
     { id: "learn", label: "LearnZone", icon: GraduationCap, color: "bg-accent" },
     { id: "practice", label: "Practice Zone", icon: Target, color: "bg-blue-500" },
     { id: "streak", label: "Streak Zone", icon: Flame, color: "bg-orange-500" },
-    { id: "chat", label: "Chat with Jesi AI", icon: MessageCircle, color: "bg-purple-500" },
     { id: "redemption", label: "Reward Store", icon: Coins, color: "bg-yellow-500" },
     { id: "insights", label: "Insight Zone", icon: BarChart3, color: "bg-green-500" },
   ];

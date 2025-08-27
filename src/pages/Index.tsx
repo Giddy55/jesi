@@ -37,8 +37,6 @@ const Index = () => {
         return <PracticeZone user={user} />;
       case "streak": 
         return <StreakZone totalCoins={totalCoins} onCoinsUpdate={setTotalCoins} />;
-      case "chat":
-        return <ChatInterface />;
       case "redemption":
         return <RedemptionZone totalCoins={totalCoins} onCoinsUpdate={setTotalCoins} />;
       case "insights": 
