@@ -16,7 +16,7 @@ import { FloatingChatbot } from "@/components/layout/FloatingChatbot";
 const Index = () => {
   const { user, login, logout, isAuthenticated } = useAuth();
   const [activeZone, setActiveZone] = useState<string>(user?.level === "shs" ? "welcome" : "class");
-  const [totalCoins, setTotalCoins] = useState(245); // Demo starting coins
+  const [totalCoins, setTotalCoins] = useState(1500); // Demo starting coins - increased to show redemption
 
   // If not authenticated, show landing page
   if (!isAuthenticated) {
