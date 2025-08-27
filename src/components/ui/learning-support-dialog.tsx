@@ -247,7 +247,7 @@ export function LearningSupportDialog({
                   onOpenChatbot?.();
                   onClose();
                 }}
-                className="w-full py-4 bg-gradient-to-r from-secondary to-accent hover:from-secondary/90 hover:to-accent/90 text-white font-semibold text-lg hover-lift"
+                className="w-full py-4 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover-lift"
               >
                 🤖 Start Chatting with Jesi
               </Button>
