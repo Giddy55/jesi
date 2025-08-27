@@ -571,23 +571,24 @@ export function LearnZone({ onZoneChange }: LearnZoneProps) {
 
         {/* Quick Questions - Enhanced */}
         <Card className="border-2 border-secondary">
-          <div className="p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
-                <span className="text-secondary-foreground text-lg">💡</span>
+          <div className="p-4">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-6 h-6 bg-secondary rounded-full flex items-center justify-center">
+                <span className="text-secondary-foreground text-sm">💡</span>
               </div>
-              <h3 className="font-bold text-lg text-foreground">Quick Questions</h3>
+              <h3 className="font-semibold text-base text-foreground">Quick Questions</h3>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {commonQuestions.map((question, index) => (
                 <Button
                   key={index}
                   variant="outline"
-                  className="text-left justify-start h-auto p-4 border-secondary hover:bg-secondary/50 hover:border-accent transition-all"
+                  size="sm"
+                  className="text-left justify-start h-auto p-3 border-secondary hover:bg-secondary/50 hover:border-accent transition-all text-sm"
                   onClick={() => handleChatQuestion(question)}
                   disabled={isLoading}
                 >
-                  <span className="text-primary mr-2">❓</span>
+                  <span className="text-primary mr-2 text-xs">❓</span>
                   {question}
                 </Button>
               ))}
