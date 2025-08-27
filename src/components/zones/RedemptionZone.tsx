@@ -3,9 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Coins, Gift, Trophy, Star, Crown, Sparkles, ShoppingBag, ArrowRight, CheckCircle } from "lucide-react";
+import { Coins, Gift, Trophy, Star, Crown, Sparkles, ShoppingBag, ArrowRight, CheckCircle, CircleDollarSign } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import confetti from "canvas-confetti";
+import coinsIcon from "@/assets/coins-icon.png";
 
 interface RedemptionZoneProps {
   totalCoins: number;
@@ -83,7 +84,7 @@ export function RedemptionZone({ totalCoins, onCoinsUpdate }: RedemptionZoneProp
         {/* Current Coins Display */}
         <div className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white p-6 rounded-2xl inline-block mb-8">
           <div className="flex items-center gap-3">
-            <Coins className="w-8 h-8" />
+            <img src={coinsIcon} alt="Coins" className="w-8 h-8" />
             <div>
               <p className="text-sm opacity-90">Your Total Balance</p>
               <p className="text-3xl font-bold">{totalCoins} / {REDEMPTION_THRESHOLD} Coins</p>
@@ -161,7 +162,7 @@ export function RedemptionZone({ totalCoins, onCoinsUpdate }: RedemptionZoneProp
                 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Coins className="w-6 h-6 text-yellow-500" />
+                    <img src={coinsIcon} alt="Coins" className="w-6 h-6" />
                     <span className="font-bold text-lg">Costs all {totalCoins} coins</span>
                   </div>
                   
@@ -224,7 +225,7 @@ export function RedemptionZone({ totalCoins, onCoinsUpdate }: RedemptionZoneProp
       {totalCoins === 0 && (
         <Card>
           <CardContent className="text-center py-12">
-            <Coins className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <img src={coinsIcon} alt="Coins" className="w-16 h-16 mx-auto mb-4 opacity-50" />
             <h3 className="text-xl font-bold text-gray-600 mb-2">Start Your Journey!</h3>
             <p className="text-muted-foreground">
               Complete tests and assignments to start earning coins toward your Ultimate Achievement!
