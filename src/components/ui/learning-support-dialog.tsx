@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Brain, MessageCircle, BookOpen, Lightbulb, Target, ArrowRight } from "lucide-react";
+import { Brain, MessageCircle, BookOpen, Lightbulb, Target, ArrowRight, Heart, Gamepad2, GraduationCap } from "lucide-react";
 
 interface LearningSupportDialogProps {
   isOpen: boolean;
@@ -12,6 +12,9 @@ interface LearningSupportDialogProps {
   mood: "confusing" | "tough";
   selectedSubject?: string;
   onSupportSelected: (supportType: string, details: string) => void;
+  onNavigateToPractice?: () => void;
+  onOpenChatbot?: () => void;
+  onNavigateToClass?: () => void;
 }
 
 export function LearningSupportDialog({ 
@@ -19,84 +22,69 @@ export function LearningSupportDialog({
   onClose, 
   mood, 
   selectedSubject,
-  onSupportSelected 
+  onSupportSelected,
+  onNavigateToPractice,
+  onOpenChatbot,
+  onNavigateToClass
 }: LearningSupportDialogProps) {
-  const [selectedSupport, setSelectedSupport] = useState<string>("");
-  const [additionalDetails, setAdditionalDetails] = useState("");
-  const [currentStep, setCurrentStep] = useState<"selection" | "details" | "confirmation">("selection");
+  const [currentStep, setCurrentStep] = useState<"selection" | "encouragement" | "chatOptions">("selection");
   
-  console.log("LearningSupportDialog props:", { isOpen, mood, selectedSubject });
-
   const supportOptions = [
     {
-      id: "concept-unclear",
-      title: "The concept is unclear",
-      description: "I need a simpler explanation",
-      icon: Brain,
-      color: "bg-blue-50 border-blue-200 hover:bg-blue-100",
-      badge: "Understanding"
-    },
-    {
-      id: "need-examples",
-      title: "I need more examples",
-      description: "Show me practical examples",
-      icon: Lightbulb,
-      color: "bg-yellow-50 border-yellow-200 hover:bg-yellow-100",
-      badge: "Examples"
-    },
-    {
-      id: "pace-too-fast",
-      title: "The pace is too fast",
-      description: "I need to slow down",
-      icon: Target,
-      color: "bg-green-50 border-green-200 hover:bg-green-100",
-      badge: "Pacing"
-    },
-    {
       id: "need-practice",
-      title: "I need more practice",
-      description: "Let me try more exercises",
-      icon: BookOpen,
-      color: "bg-purple-50 border-purple-200 hover:bg-purple-100",
-      badge: "Practice"
+      title: "I need to practice more",
+      description: "Take me to the practice zone",
+      icon: Gamepad2,
+      color: "bg-gradient-to-br from-purple-50 to-purple-100 border-purple-300 hover:from-purple-100 hover:to-purple-200",
+      action: () => {
+        onNavigateToPractice?.();
+        onClose();
+      }
     },
     {
-      id: "different-approach",
-      title: "Try a different approach",
-      description: "This method doesn't work for me",
+      id: "didnt-understand",
+      title: "I didn't understand",
+      description: "Let me chat with Jesi for help",
       icon: MessageCircle,
-      color: "bg-orange-50 border-orange-200 hover:bg-orange-100",
-      badge: "Method"
+      color: "bg-gradient-to-br from-blue-50 to-blue-100 border-blue-300 hover:from-blue-100 hover:to-blue-200",
+      action: () => {
+        onOpenChatbot?.();
+        onClose();
+      }
+    },
+    {
+      id: "feeling-down",
+      title: "I'm feeling down",
+      description: "I need some encouragement",
+      icon: Heart,
+      color: "bg-gradient-to-br from-pink-50 to-pink-100 border-pink-300 hover:from-pink-100 hover:to-pink-200",
+      action: () => setCurrentStep("encouragement")
+    },
+    {
+      id: "other-help",
+      title: "Something else",
+      description: "I need different kind of help",
+      icon: Brain,
+      color: "bg-gradient-to-br from-green-50 to-green-100 border-green-300 hover:from-green-100 hover:to-green-200",
+      action: () => setCurrentStep("chatOptions")
     }
   ];
 
-  const handleSupportSelect = (supportId: string) => {
-    setSelectedSupport(supportId);
-    setCurrentStep("details");
-  };
-
-  const handleSubmit = () => {
-    const selectedOption = supportOptions.find(opt => opt.id === selectedSupport);
-    onSupportSelected(selectedSupport, additionalDetails);
-    setCurrentStep("confirmation");
-    
-    // Auto close after showing confirmation
-    setTimeout(() => {
-      onClose();
-      setCurrentStep("selection");
-      setSelectedSupport("");
-      setAdditionalDetails("");
-    }, 2000);
-  };
-
   const getJesiMessage = () => {
     if (mood === "confusing") {
-      return "I see you're finding something confusing! 🤔 That's totally normal - everyone learns differently. Let me help you figure out the best way to support your learning.";
+      return "Don't worry! 🤗 Learning can be confusing sometimes. That's how our brain grows! What would help you most right now?";
     }
-    return "I notice you're finding things tough! 💪 That shows you're challenging yourself, which is great! Let's find the right support to help you succeed.";
+    return "Hey there! 💪 I see you're facing some challenges. That's totally normal and shows you're pushing yourself to learn! How can I support you?";
   };
 
-  const getSelectedOption = () => supportOptions.find(opt => opt.id === selectedSupport);
+  const encouragementMessages = [
+    "You're doing amazing! 🌟 Every challenge you face is making you stronger and smarter.",
+    "Remember, even the greatest minds struggled with new concepts. You're on the right path! 🚀",
+    "Your persistence is inspiring! Learning isn't always easy, but you're proving you can do it. 💪",
+    "Take a deep breath. You've overcome challenges before, and you'll overcome this one too! 🌈"
+  ];
+
+  const randomEncouragement = encouragementMessages[Math.floor(Math.random() * encouragementMessages.length)];
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -113,12 +101,12 @@ export function LearningSupportDialog({
             {/* Jesi's supportive message */}
             <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-sm">🤖</span>
+                <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-lg">🤖</span>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-primary mb-1">Jesi AI</p>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-sm font-bold text-primary mb-1">Jesi AI ✨</p>
+                  <p className="text-sm text-foreground leading-relaxed">
                     {getJesiMessage()}
                   </p>
                 </div>
@@ -127,112 +115,151 @@ export function LearningSupportDialog({
 
             {selectedSubject && (
               <div className="text-center">
-                <Badge variant="outline" className="text-sm px-3 py-1">
-                  Subject: {selectedSubject}
+                <Badge variant="outline" className="text-sm px-3 py-1 border-primary/30">
+                  📚 Subject: {selectedSubject}
                 </Badge>
               </div>
             )}
 
             {/* Support options */}
-            <div className="grid gap-3">
-              <h3 className="font-semibold text-lg text-center mb-2">
-                What kind of support would help you most?
+            <div className="space-y-4">
+              <h3 className="font-bold text-xl text-center mb-4 text-foreground">
+                How can I help you? 💫
               </h3>
               
-              {supportOptions.map((option) => {
-                const IconComponent = option.icon;
-                return (
-                  <Card 
-                    key={option.id}
-                    className={`cursor-pointer transition-all duration-200 border-2 ${option.color} hover:shadow-md`}
-                    onClick={() => handleSupportSelect(option.id)}
-                  >
-                    <CardContent className="p-4">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full bg-white/80 flex items-center justify-center flex-shrink-0">
-                          <IconComponent className="w-6 h-6 text-primary" />
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <h4 className="font-semibold">{option.title}</h4>
-                            <Badge variant="secondary" className="text-xs">
-                              {option.badge}
-                            </Badge>
+              <div className="grid gap-4">
+                {supportOptions.map((option) => {
+                  const IconComponent = option.icon;
+                  return (
+                    <Card 
+                      key={option.id}
+                      className={`cursor-pointer transition-all duration-300 border-2 ${option.color} hover:shadow-lg hover:scale-[1.02] transform`}
+                      onClick={option.action}
+                    >
+                      <CardContent className="p-6">
+                        <div className="flex items-center gap-4">
+                          <div className="w-14 h-14 rounded-2xl bg-white/90 flex items-center justify-center flex-shrink-0 shadow-sm">
+                            <IconComponent className="w-7 h-7 text-primary" />
                           </div>
-                          <p className="text-sm text-muted-foreground">
-                            {option.description}
-                          </p>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-lg mb-1 text-foreground">{option.title}</h4>
+                            <p className="text-sm text-muted-foreground leading-relaxed">
+                              {option.description}
+                            </p>
+                          </div>
+                          <ArrowRight className="w-6 h-6 text-primary/60" />
                         </div>
-                        <ArrowRight className="w-5 h-5 text-muted-foreground" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
             </div>
           </div>
         )}
 
-        {currentStep === "details" && (
+        {currentStep === "encouragement" && (
           <div className="space-y-6">
-            <div className="text-center">
-              <Badge variant="outline" className="text-sm px-3 py-1 mb-4">
-                {getSelectedOption()?.badge}
-              </Badge>
-              <h3 className="font-semibold text-lg mb-2">
-                {getSelectedOption()?.title}
-              </h3>
-              <p className="text-muted-foreground">
-                {getSelectedOption()?.description}
-              </p>
+            {/* Encouraging message from Jesi */}
+            <div className="bg-gradient-to-r from-pink-50 to-purple-50 border-2 border-pink-200 rounded-xl p-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Heart className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-bold text-lg text-pink-700 mb-2">Words of Encouragement 💝</h4>
+                  <p className="text-base text-gray-700 leading-relaxed mb-4">
+                    {randomEncouragement}
+                  </p>
+                  <div className="bg-white/60 rounded-lg p-3 border border-pink-200">
+                    <p className="text-sm text-pink-600 font-medium">
+                      ✨ Remember: Every expert was once a beginner. You're doing great by not giving up!
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Tell us more (optional):
-                </label>
-                <Textarea
-                  placeholder="What specifically is challenging? Any particular topics or concepts?"
-                  value={additionalDetails}
-                  onChange={(e) => setAdditionalDetails(e.target.value)}
-                  className="min-h-[100px]"
-                />
-              </div>
-
-              <div className="flex gap-3">
+            {/* Action buttons */}
+            <div className="space-y-3">
+              <h3 className="font-semibold text-center text-foreground">
+                What would you like to do next?
+              </h3>
+              
+              <div className="grid gap-3">
                 <Button 
-                  variant="outline" 
-                  onClick={() => setCurrentStep("selection")}
-                  className="flex-1"
+                  onClick={() => {
+                    onOpenChatbot?.();
+                    onClose();
+                  }}
+                  className="w-full py-4 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold"
                 >
-                  Back
+                  💬 Chat More with Jesi
                 </Button>
+                
                 <Button 
-                  onClick={handleSubmit}
-                  className="flex-1 bg-primary hover:bg-primary/90"
+                  onClick={() => {
+                    onNavigateToClass?.();
+                    onClose();
+                  }}
+                  variant="outline"
+                  className="w-full py-4 border-2 border-primary hover:bg-primary/5"
                 >
-                  Get Support
+                  📚 Enter Class & Start Learning
+                </Button>
+                
+                <Button 
+                  onClick={() => setCurrentStep("selection")}
+                  variant="ghost"
+                  className="w-full text-muted-foreground"
+                >
+                  ← Back to Options
                 </Button>
               </div>
             </div>
           </div>
         )}
 
-        {currentStep === "confirmation" && (
-          <div className="text-center space-y-6 py-8">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-              <span className="text-2xl">✅</span>
+        {currentStep === "chatOptions" && (
+          <div className="space-y-6">
+            {/* Jesi's message for other help */}
+            <div className="bg-green-50 border-2 border-green-200 rounded-xl p-4">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Brain className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-green-700 mb-1">Jesi AI Ready to Help! 🚀</p>
+                  <p className="text-sm text-green-600 leading-relaxed">
+                    I'm here to help with anything you need! Let's chat and figure out the best way to support your learning journey.
+                  </p>
+                </div>
+              </div>
             </div>
-            <div>
-              <h3 className="font-bold text-xl mb-2">Perfect! I've got it! 🎯</h3>
-              <p className="text-muted-foreground">
-                I'm preparing personalized support for you. Your learning experience will be adjusted to help with <strong>{getSelectedOption()?.title.toLowerCase()}</strong>.
-              </p>
+
+            <div className="text-center space-y-4">
+              <h3 className="font-bold text-lg text-foreground">
+                Let's have a conversation! 🗣️
+              </h3>
+              
+              <Button 
+                onClick={() => {
+                  onOpenChatbot?.();
+                  onClose();
+                }}
+                className="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold text-lg"
+              >
+                🤖 Start Chatting with Jesi
+              </Button>
+              
+              <Button 
+                onClick={() => setCurrentStep("selection")}
+                variant="ghost"
+                className="w-full text-muted-foreground"
+              >
+                ← Back to Options
+              </Button>
             </div>
-            <Badge variant="secondary" className="text-sm px-4 py-2">
-              Personalizing your experience...
-            </Badge>
           </div>
         )}
       </DialogContent>
