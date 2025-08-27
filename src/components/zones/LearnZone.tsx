@@ -576,7 +576,7 @@ export function LearnZone({ onZoneChange }: LearnZoneProps) {
               <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
                 <span className="text-secondary-foreground text-lg">💡</span>
               </div>
-              <h3 className="font-bold text-lg text-secondary-foreground">Quick Questions</h3>
+              <h3 className="font-bold text-lg text-foreground">Quick Questions</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {commonQuestions.map((question, index) => (
@@ -587,7 +587,7 @@ export function LearnZone({ onZoneChange }: LearnZoneProps) {
                   onClick={() => handleChatQuestion(question)}
                   disabled={isLoading}
                 >
-                  <span className="text-accent-foreground mr-2">❓</span>
+                  <span className="text-primary mr-2">❓</span>
                   {question}
                 </Button>
               ))}
@@ -602,7 +602,7 @@ export function LearnZone({ onZoneChange }: LearnZoneProps) {
               <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
                 <span className="text-accent-foreground text-lg">💬</span>
               </div>
-              <h3 className="font-bold text-lg text-accent-foreground">Ask Your Own Question</h3>
+              <h3 className="font-bold text-lg text-foreground">Ask Your Own Question</h3>
             </div>
             <div className="space-y-3">
               <div className="flex gap-3">
@@ -627,7 +627,7 @@ export function LearnZone({ onZoneChange }: LearnZoneProps) {
                   Ask Jesi
                 </Button>
               </div>
-              <p className="text-sm text-accent-foreground">
+              <p className="text-sm text-muted-foreground">
                 💡 Try asking: "Can you give me a real-world example?" or "What's the easiest way to remember this?"
               </p>
             </div>
