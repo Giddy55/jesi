@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Landing } from "./Landing";
 import { Navigation } from "@/components/layout/Navigation";
+import { ChatInterface } from "@/components/chat/ChatInterface";
 import { ClassZone } from "@/components/zones/ClassZone";
 import { LearnZone } from "@/components/zones/LearnZone";
 import { PracticeZone } from "@/components/zones/PracticeZone";
@@ -36,6 +37,8 @@ const Index = () => {
         return <PracticeZone user={user} />;
       case "streak": 
         return <StreakZone totalCoins={totalCoins} onCoinsUpdate={setTotalCoins} />;
+      case "chat":
+        return <ChatInterface />;
       case "redemption":
         return <RedemptionZone totalCoins={totalCoins} onCoinsUpdate={setTotalCoins} />;
       case "insights": 
