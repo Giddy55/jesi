@@ -77,7 +77,7 @@ export function RedemptionZone({ totalCoins, onCoinsUpdate }: RedemptionZoneProp
           Ultimate Achievement Center
         </h1>
         <p className="text-lg text-muted-foreground mb-6">
-          Reach 1000 coins to unlock your Ultimate Scholar Achievement!
+          Complete tests and assignments to earn coins and unlock your Ultimate Scholar Achievement at 1000 coins!
         </p>
         
         {/* Current Coins Display */}
@@ -209,11 +209,11 @@ export function RedemptionZone({ totalCoins, onCoinsUpdate }: RedemptionZoneProp
             <Sparkles className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-primary mb-2">Keep Learning!</h3>
             <p className="text-muted-foreground mb-4">
-              You're doing great! Complete more activities in the Streak Zone to reach 1000 coins.
+              You're doing great! Complete more tests and assignments to reach 1000 coins.
             </p>
             <div className="bg-blue-50 p-4 rounded-lg border inline-block">
               <p className="text-sm text-blue-800">
-                💡 <strong>Tip:</strong> Each completed activity earns you coins. Stay consistent to reach your goal faster!
+                💡 <strong>Tip:</strong> Each completed test and assignment earns you coins. Stay consistent to reach your goal faster!
               </p>
             </div>
           </CardContent>
@@ -227,7 +227,7 @@ export function RedemptionZone({ totalCoins, onCoinsUpdate }: RedemptionZoneProp
             <Coins className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-600 mb-2">Start Your Journey!</h3>
             <p className="text-muted-foreground">
-              Complete activities in the Streak Zone to start earning coins toward your Ultimate Achievement!
+              Complete tests and assignments to start earning coins toward your Ultimate Achievement!
             </p>
           </CardContent>
         </Card>
