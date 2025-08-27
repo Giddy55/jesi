@@ -35,7 +35,7 @@ export function LearningSupportDialog({
       title: "I need to practice more",
       description: "Take me to the practice zone",
       icon: Gamepad2,
-      color: "bg-gradient-to-br from-purple-50 to-purple-100 border-purple-300 hover:from-purple-100 hover:to-purple-200",
+      color: "bg-gradient-to-br from-accent/20 to-accent/40 border-accent hover:from-accent/30 hover:to-accent/50",
       action: () => {
         onNavigateToPractice?.();
         onClose();
@@ -46,7 +46,7 @@ export function LearningSupportDialog({
       title: "I didn't understand",
       description: "Let me chat with Jesi for help",
       icon: MessageCircle,
-      color: "bg-gradient-to-br from-blue-50 to-blue-100 border-blue-300 hover:from-blue-100 hover:to-blue-200",
+      color: "bg-gradient-to-br from-secondary/30 to-secondary/50 border-secondary hover:from-secondary/40 hover:to-secondary/60",
       action: () => {
         onOpenChatbot?.();
         onClose();
@@ -57,7 +57,7 @@ export function LearningSupportDialog({
       title: "I'm feeling down",
       description: "I need some encouragement",
       icon: Heart,
-      color: "bg-gradient-to-br from-pink-50 to-pink-100 border-pink-300 hover:from-pink-100 hover:to-pink-200",
+      color: "bg-gradient-to-br from-primary/15 to-primary/25 border-primary/40 hover:from-primary/20 hover:to-primary/35",
       action: () => setCurrentStep("encouragement")
     },
     {
@@ -65,7 +65,7 @@ export function LearningSupportDialog({
       title: "Something else",
       description: "I need different kind of help",
       icon: Brain,
-      color: "bg-gradient-to-br from-green-50 to-green-100 border-green-300 hover:from-green-100 hover:to-green-200",
+      color: "bg-gradient-to-br from-muted/40 to-muted/60 border-muted hover:from-muted/50 hover:to-muted/70",
       action: () => setCurrentStep("chatOptions")
     }
   ];
@@ -161,18 +161,18 @@ export function LearningSupportDialog({
         {currentStep === "encouragement" && (
           <div className="space-y-6">
             {/* Encouraging message from Jesi */}
-            <div className="bg-gradient-to-r from-pink-50 to-purple-50 border-2 border-pink-200 rounded-xl p-6">
+            <div className="bg-gradient-to-r from-primary/10 to-accent/20 border-2 border-primary/30 rounded-xl p-6 animate-fade-in">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center flex-shrink-0 animate-pulse">
                   <Heart className="w-6 h-6 text-white" />
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-bold text-lg text-pink-700 mb-2">Words of Encouragement 💝</h4>
-                  <p className="text-base text-gray-700 leading-relaxed mb-4">
+                  <h4 className="font-bold text-lg text-primary mb-2">Your Personal Cheerleader 🌟</h4>
+                  <p className="text-base text-foreground leading-relaxed mb-4">
                     {randomEncouragement}
                   </p>
-                  <div className="bg-white/60 rounded-lg p-3 border border-pink-200">
-                    <p className="text-sm text-pink-600 font-medium">
+                  <div className="bg-background/80 rounded-lg p-3 border border-primary/20 backdrop-blur-sm">
+                    <p className="text-sm text-primary font-medium">
                       ✨ Remember: Every expert was once a beginner. You're doing great by not giving up!
                     </p>
                   </div>
@@ -192,7 +192,7 @@ export function LearningSupportDialog({
                     onOpenChatbot?.();
                     onClose();
                   }}
-                  className="w-full py-4 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold"
+                  className="w-full py-4 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-semibold hover-lift"
                 >
                   💬 Chat More with Jesi
                 </Button>
@@ -203,7 +203,7 @@ export function LearningSupportDialog({
                     onClose();
                   }}
                   variant="outline"
-                  className="w-full py-4 border-2 border-primary hover:bg-primary/5"
+                  className="w-full py-4 border-2 border-primary hover:bg-primary/5 hover-lift"
                 >
                   📚 Enter Class & Start Learning
                 </Button>
@@ -211,7 +211,7 @@ export function LearningSupportDialog({
                 <Button 
                   onClick={() => setCurrentStep("selection")}
                   variant="ghost"
-                  className="w-full text-muted-foreground"
+                  className="w-full text-muted-foreground hover:text-foreground"
                 >
                   ← Back to Options
                 </Button>
@@ -223,14 +223,14 @@ export function LearningSupportDialog({
         {currentStep === "chatOptions" && (
           <div className="space-y-6">
             {/* Jesi's message for other help */}
-            <div className="bg-green-50 border-2 border-green-200 rounded-xl p-4">
+            <div className="bg-secondary/20 border-2 border-secondary rounded-xl p-4 animate-fade-in">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center flex-shrink-0">
                   <Brain className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-green-700 mb-1">Jesi AI Ready to Help! 🚀</p>
-                  <p className="text-sm text-green-600 leading-relaxed">
+                  <p className="text-sm font-bold text-primary mb-1">Jesi AI Ready to Help! 🚀</p>
+                  <p className="text-sm text-foreground leading-relaxed">
                     I'm here to help with anything you need! Let's chat and figure out the best way to support your learning journey.
                   </p>
                 </div>
@@ -247,7 +247,7 @@ export function LearningSupportDialog({
                   onOpenChatbot?.();
                   onClose();
                 }}
-                className="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold text-lg"
+                className="w-full py-4 bg-gradient-to-r from-secondary to-accent hover:from-secondary/90 hover:to-accent/90 text-white font-semibold text-lg hover-lift"
               >
                 🤖 Start Chatting with Jesi
               </Button>
@@ -255,7 +255,7 @@ export function LearningSupportDialog({
               <Button 
                 onClick={() => setCurrentStep("selection")}
                 variant="ghost"
-                className="w-full text-muted-foreground"
+                className="w-full text-muted-foreground hover:text-foreground"
               >
                 ← Back to Options
               </Button>
