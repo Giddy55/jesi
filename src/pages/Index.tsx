@@ -6,6 +6,7 @@ import { ClassZone } from "@/components/zones/ClassZone";
 import { LearnZone } from "@/components/zones/LearnZone";
 import { PracticeZone } from "@/components/zones/PracticeZone";
 import { StreakZone } from "@/components/zones/StreakZone";
+import { RedemptionZone } from "@/components/zones/RedemptionZone";
 import { InsightZone } from "@/components/zones/InsightZone";
 import { ShsWelcome } from "@/components/zones/shs/ShsWelcome";
 import { ProfilePanel } from "@/components/layout/ProfilePanel";
@@ -14,6 +15,7 @@ import { FloatingChatbot } from "@/components/layout/FloatingChatbot";
 const Index = () => {
   const { user, login, logout, isAuthenticated } = useAuth();
   const [activeZone, setActiveZone] = useState<string>(user?.level === "shs" ? "welcome" : "class");
+  const [totalCoins, setTotalCoins] = useState(245); // Demo starting coins
 
   // If not authenticated, show landing page
   if (!isAuthenticated) {
@@ -33,7 +35,9 @@ const Index = () => {
       case "practice": 
         return <PracticeZone user={user} />;
       case "streak": 
-        return <StreakZone />;
+        return <StreakZone totalCoins={totalCoins} onCoinsUpdate={setTotalCoins} />;
+      case "redemption":
+        return <RedemptionZone totalCoins={totalCoins} onCoinsUpdate={setTotalCoins} />;
       case "insights": 
         return <InsightZone userType={userType} user={user} onZoneChange={setActiveZone} />;
       default: 
@@ -51,6 +55,7 @@ const Index = () => {
             userType={user?.type as "student" | "parent" | "admin"}
             user={user}
             onLogout={logout}
+            totalCoins={totalCoins}
           />
           <main id="main-content" className="flex-1 max-w-4xl" role="main">
             {renderActiveZone()}

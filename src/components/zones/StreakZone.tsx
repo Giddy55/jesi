@@ -22,6 +22,11 @@ import confetti from "canvas-confetti";
 import { cn } from "@/lib/utils";
 import { StreakSummary } from "./StreakSummary";
 
+interface StreakZoneProps {
+  totalCoins?: number;
+  onCoinsUpdate?: (newTotal: number) => void;
+}
+
 interface StreakActivity {
   id: string;
   name: string;
@@ -44,9 +49,8 @@ interface Reward {
   owned: boolean;
 }
 
-export function StreakZone() {
+export function StreakZone({ totalCoins = 0, onCoinsUpdate }: StreakZoneProps = {}) {
   const [currentStreak, setCurrentStreak] = useState(7);
-  const [totalCoins, setTotalCoins] = useState(285);
   const [showRewardBox, setShowRewardBox] = useState(false);
   const [selectedReward, setSelectedReward] = useState<string | null>(null);
   const { toast } = useToast();
@@ -200,7 +204,7 @@ export function StreakZone() {
           };
 
           // Award coins
-          setTotalCoins(prev => prev + activity.points);
+          onCoinsUpdate?.(totalCoins + activity.points);
           
           // Show celebration
           toast({
@@ -230,7 +234,7 @@ export function StreakZone() {
       return;
     }
 
-    setTotalCoins(prev => prev - reward.cost);
+    onCoinsUpdate?.(totalCoins - reward.cost);
     setRewards(prev => 
       prev.map(r => 
         r.id === rewardId ? { ...r, owned: true } : r
@@ -249,7 +253,7 @@ export function StreakZone() {
   };
 
   const handleMysteryBoxOpen = (coins: number) => {
-    setTotalCoins(prev => prev + coins);
+    onCoinsUpdate?.(totalCoins + coins);
     toast({
       title: `Super Mystery Box opened! 🎊`,
       description: `You earned ${coins} bonus coins!`,

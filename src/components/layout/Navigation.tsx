@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { BookOpen, GraduationCap, Target, BarChart3, User, Menu, X, Flame, LogOut } from "lucide-react";
+import { BookOpen, GraduationCap, Target, BarChart3, User, Menu, X, Flame, LogOut, Coins } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,9 +17,10 @@ interface NavigationProps {
   userType: "student" | "parent" | "admin";
   user?: any;
   onLogout?: () => void;
+  totalCoins?: number;
 }
 
-export function Navigation({ activeZone, onZoneChange, userType, user, onLogout }: NavigationProps) {
+export function Navigation({ activeZone, onZoneChange, userType, user, onLogout, totalCoins = 0 }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const zones = [
@@ -27,6 +28,7 @@ export function Navigation({ activeZone, onZoneChange, userType, user, onLogout 
     { id: "learn", label: "LearnZone", icon: GraduationCap, color: "bg-accent" },
     { id: "practice", label: "Practice Zone", icon: Target, color: "bg-blue-500" },
     { id: "streak", label: "Streak Zone", icon: Flame, color: "bg-orange-500" },
+    { id: "redemption", label: "Reward Store", icon: Coins, color: "bg-yellow-500" },
     { id: "insights", label: "Insight Zone", icon: BarChart3, color: "bg-green-500" },
   ];
 
@@ -47,6 +49,12 @@ export function Navigation({ activeZone, onZoneChange, userType, user, onLogout 
         </div>
         
         <div className="flex items-center gap-3">
+          {/* Coins Display - Mobile */}
+          <div className="flex items-center gap-1 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+            <Coins className="w-4 h-4" />
+            <span>{totalCoins}</span>
+          </div>
+          
           {user && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -143,6 +151,17 @@ export function Navigation({ activeZone, onZoneChange, userType, user, onLogout 
               </Button>
             ))}
           </nav>
+
+          {/* Coins Display - Desktop */}
+          <div className="pt-6">
+            <div className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white p-4 rounded-xl text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Coins className="w-6 h-6" />
+                <span className="text-lg font-bold">{totalCoins}</span>
+              </div>
+              <p className="text-sm opacity-90">Your Coins</p>
+            </div>
+          </div>
 
           <div className="pt-6 mt-6 border-t">
             <Button
