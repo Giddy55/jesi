@@ -486,7 +486,7 @@ export function LearnZone({ onZoneChange }: LearnZoneProps) {
           ← Back
         </Button>
         <div className="text-center">
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+          <h2 className="text-3xl font-bold gradient-text mb-2">
             Chat with Jesi AI 💬
           </h2>
           <p className="text-muted-foreground">Your personal AI tutor is here to help!</p>
@@ -497,15 +497,15 @@ export function LearnZone({ onZoneChange }: LearnZoneProps) {
       <div className="space-y-6">
         {/* Welcome Message - Only show if no conversation yet */}
         {chatMessages.length === 0 && (
-          <Card className="bg-gradient-to-r from-purple-50 to-pink-50 border-purple-200">
+          <Card className="bg-secondary/30 border-accent">
             <div className="p-6">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
-                  <MessageCircle className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                  <MessageCircle className="w-6 h-6 text-primary-foreground" />
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-bold text-lg text-purple-700 mb-2">Jesi AI ✨</h4>
-                  <p className="text-gray-700 leading-relaxed">
+                  <h4 className="font-bold text-lg text-primary mb-2">Jesi AI ✨</h4>
+                  <p className="text-foreground leading-relaxed">
                     Hi {name}! 👋 I'm here to help you learn about <strong>{selectedTopic || 'your chosen topic'}</strong> in <strong>{selectedSubject || 'Mathematics'}</strong>. 
                     Ask me anything - I can explain concepts, give examples, or help with problems you're stuck on!
                   </p>
@@ -517,19 +517,19 @@ export function LearnZone({ onZoneChange }: LearnZoneProps) {
 
         {/* Chat Messages - Enhanced Design */}
         {chatMessages.length > 0 && (
-          <Card className="border-2 border-purple-100">
+          <Card className="border-2 border-accent">
             <div className="p-6 max-h-[500px] overflow-y-auto space-y-4">
               {chatMessages.map((msg, index) => (
                 <div key={index} className={`flex gap-4 ${msg.type === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                   {/* Avatar */}
                   <div className="flex-shrink-0">
                     {msg.type === 'user' ? (
-                      <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                        <span className="text-white text-sm font-bold">{name?.charAt(0) || 'U'}</span>
+                      <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+                        <span className="text-accent-foreground text-sm font-bold">{name?.charAt(0) || 'U'}</span>
                       </div>
                     ) : (
-                      <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                        <MessageCircle className="w-4 h-4 text-white" />
+                      <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                        <MessageCircle className="w-4 h-4 text-primary-foreground" />
                       </div>
                     )}
                   </div>
@@ -538,10 +538,10 @@ export function LearnZone({ onZoneChange }: LearnZoneProps) {
                   <div className={`flex-1 max-w-[80%] ${msg.type === 'user' ? 'text-right' : 'text-left'}`}>
                     <div className={`inline-block p-4 rounded-2xl shadow-sm ${
                       msg.type === 'user' 
-                        ? 'bg-blue-500 text-white rounded-br-lg' 
-                        : 'bg-white border border-purple-100 rounded-bl-lg'
+                        ? 'bg-accent text-accent-foreground rounded-br-lg' 
+                        : 'bg-card border border-border rounded-bl-lg'
                     }`}>
-                      <p className={`text-sm leading-relaxed ${msg.type === 'user' ? 'text-white' : 'text-gray-700'}`}>
+                      <p className={`text-sm leading-relaxed ${msg.type === 'user' ? 'text-accent-foreground' : 'text-card-foreground'}`}>
                         {msg.content}
                       </p>
                     </div>
@@ -552,12 +552,12 @@ export function LearnZone({ onZoneChange }: LearnZoneProps) {
               {/* Loading indicator */}
               {isLoading && (
                 <div className="flex gap-4">
-                  <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                    <MessageCircle className="w-4 h-4 text-white" />
+                  <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                    <MessageCircle className="w-4 h-4 text-primary-foreground" />
                   </div>
                   <div className="flex-1">
-                    <div className="inline-block bg-white border border-purple-100 p-4 rounded-2xl rounded-bl-lg shadow-sm">
-                      <div className="flex items-center gap-2 text-gray-500">
+                    <div className="inline-block bg-card border border-border p-4 rounded-2xl rounded-bl-lg shadow-sm">
+                      <div className="flex items-center gap-2 text-muted-foreground">
                         <Loader2 className="w-4 h-4 animate-spin" />
                         <span className="text-sm">Jesi is thinking...</span>
                       </div>
@@ -570,24 +570,24 @@ export function LearnZone({ onZoneChange }: LearnZoneProps) {
         )}
 
         {/* Quick Questions - Enhanced */}
-        <Card className="border-2 border-blue-100">
+        <Card className="border-2 border-secondary">
           <div className="p-6">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                <span className="text-blue-600 text-lg">💡</span>
+              <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                <span className="text-secondary-foreground text-lg">💡</span>
               </div>
-              <h3 className="font-bold text-lg text-blue-700">Quick Questions</h3>
+              <h3 className="font-bold text-lg text-secondary-foreground">Quick Questions</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {commonQuestions.map((question, index) => (
                 <Button
                   key={index}
                   variant="outline"
-                  className="text-left justify-start h-auto p-4 border-blue-200 hover:bg-blue-50 hover:border-blue-300 transition-all"
+                  className="text-left justify-start h-auto p-4 border-secondary hover:bg-secondary/50 hover:border-accent transition-all"
                   onClick={() => handleChatQuestion(question)}
                   disabled={isLoading}
                 >
-                  <span className="text-blue-600 mr-2">❓</span>
+                  <span className="text-accent-foreground mr-2">❓</span>
                   {question}
                 </Button>
               ))}
@@ -596,13 +596,13 @@ export function LearnZone({ onZoneChange }: LearnZoneProps) {
         </Card>
 
         {/* Custom Question Input - Enhanced */}
-        <Card className="border-2 border-green-100 bg-gradient-to-r from-green-50 to-emerald-50">
+        <Card className="border-2 border-accent bg-accent/20">
           <div className="p-6">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                <span className="text-green-600 text-lg">💬</span>
+              <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+                <span className="text-accent-foreground text-lg">💬</span>
               </div>
-              <h3 className="font-bold text-lg text-green-700">Ask Your Own Question</h3>
+              <h3 className="font-bold text-lg text-accent-foreground">Ask Your Own Question</h3>
             </div>
             <div className="space-y-3">
               <div className="flex gap-3">
@@ -611,13 +611,13 @@ export function LearnZone({ onZoneChange }: LearnZoneProps) {
                   value={chatQuestion}
                   onChange={(e) => setChatQuestion(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleChatQuestion(chatQuestion)}
-                  className="flex-1 border-green-200 focus:border-green-400 focus:ring-green-200"
+                  className="flex-1 border-accent focus:border-primary focus:ring-ring"
                   disabled={isLoading}
                 />
                 <Button 
                   onClick={() => handleChatQuestion(chatQuestion)}
                   disabled={isLoading || !chatQuestion.trim()}
-                  className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-6"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground px-6"
                 >
                   {isLoading ? (
                     <Loader2 className="w-4 h-4 animate-spin mr-2" />
@@ -627,7 +627,7 @@ export function LearnZone({ onZoneChange }: LearnZoneProps) {
                   Ask Jesi
                 </Button>
               </div>
-              <p className="text-sm text-green-600">
+              <p className="text-sm text-accent-foreground">
                 💡 Try asking: "Can you give me a real-world example?" or "What's the easiest way to remember this?"
               </p>
             </div>
