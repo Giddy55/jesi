@@ -22,7 +22,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
     return <ShsPractice />;
   }
 
-  const [currentStep, setCurrentStep] = useState<"welcome" | "setup" | "practice" | "results">("welcome");
+  const [currentStep, setCurrentStep] = useState<"welcome" | "styles" | "setup" | "practice" | "results">("welcome");
   const [selectedStyle, setSelectedStyle] = useState<string>("");
   const [selectedSubject, setSelectedSubject] = useState<string>("");
   const [selectedStrand, setSelectedStrand] = useState<string>("");
@@ -175,7 +175,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
           </div>
           <Button 
             size="lg"
-            onClick={() => setCurrentStep("setup")}
+            onClick={() => setCurrentStep("styles")}
             className="bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             Let's Practice! 🎯
@@ -185,8 +185,66 @@ export function PracticeZone({ user }: PracticeZoneProps) {
     );
   }
 
+  if (currentStep === "styles") {
+    return (
+      <div className="space-y-6">
+        <JesiAssistant 
+          message={`Ready to practice, ${firstName}? Pick your style! 🚀`}
+          variant="encouragement"
+        />
+
+        <div className="grid md:grid-cols-2 gap-6">
+          {practiceStyles.map((style) => (
+            <Card 
+              key={style.id} 
+              className="p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-[1.02] bg-card border border-border"
+            >
+              <div className="space-y-4">
+                {/* Icon and Title */}
+                <div className="text-center space-y-3">
+                  <div className={`w-16 h-16 ${style.color} rounded-full flex items-center justify-center text-white mx-auto`}>
+                    <style.icon className="w-8 h-8" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-xl mb-1">{style.name}</h3>
+                    <p className="text-sm text-muted-foreground">{style.description}</p>
+                  </div>
+                </div>
+
+                {/* Features */}
+                <div className="space-y-2">
+                  {style.features.map((feature, index) => (
+                    <div key={index} className="flex items-center gap-2 text-sm">
+                      <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                        <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <span className="text-muted-foreground">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Start Button */}
+                <Button 
+                  className="w-full h-12 text-base font-medium bg-primary text-primary-foreground hover:bg-primary/90"
+                  onClick={() => {
+                    setSelectedStyle(style.id);
+                    setCurrentStep("setup");
+                  }}
+                >
+                  Start {style.name}
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   if (currentStep === "setup") {
-    const canStartPractice = selectedStyle && selectedSubject && selectedStrand && selectedSubstrand;
+    const canStartPractice = selectedSubject && selectedStrand && selectedSubstrand;
     const selectedStyleData = practiceStyles.find(s => s.id === selectedStyle);
     const selectedSubjectData = subjects.find(s => s.id === selectedSubject);
     const availableStrands = selectedSubject ? strands[selectedSubject] || [] : [];
@@ -195,11 +253,14 @@ export function PracticeZone({ user }: PracticeZoneProps) {
     return (
       <div className="space-y-6">
         <div className="flex items-center gap-3 mb-6">
-          <Button variant="outline" onClick={() => setCurrentStep("welcome")}>
+          <Button variant="outline" onClick={() => setCurrentStep("styles")}>
             ← Back
           </Button>
+          <div className={`w-10 h-10 ${selectedStyleData?.color} rounded-lg flex items-center justify-center text-white`}>
+            {selectedStyleData?.icon && <selectedStyleData.icon className="w-5 h-5" />}
+          </div>
           <div>
-            <h2 className="text-xl font-bold">Setup Your Practice</h2>
+            <h2 className="text-xl font-bold">{selectedStyleData?.name} Setup</h2>
             <p className="text-muted-foreground">Choose your practice preferences</p>
           </div>
         </div>
@@ -211,34 +272,17 @@ export function PracticeZone({ user }: PracticeZoneProps) {
 
         <Card className="p-6">
           <div className="space-y-6">
-            {/* Practice Style Selection */}
-            <div className="space-y-3">
-              <label className="text-sm font-medium">Practice Style</label>
-              <Select value={selectedStyle} onValueChange={setSelectedStyle}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Choose how you want to practice" />
-                </SelectTrigger>
-                <SelectContent>
-                  {practiceStyles.map((style) => (
-                    <SelectItem key={style.id} value={style.id}>
-                      <div className="flex items-center gap-3">
-                        <div className={`w-8 h-8 ${style.color} rounded-md flex items-center justify-center text-white`}>
-                          <style.icon className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <div className="font-medium">{style.name}</div>
-                          <div className="text-xs text-muted-foreground">{style.duration}</div>
-                        </div>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {selectedStyleData && (
-                <div className="text-xs text-muted-foreground p-3 bg-muted rounded-md">
-                  {selectedStyleData.description}
+            {/* Selected Style Display */}
+            <div className="bg-secondary p-4 rounded-lg">
+              <div className="flex items-center gap-3">
+                <div className={`w-12 h-12 ${selectedStyleData?.color} rounded-lg flex items-center justify-center text-white`}>
+                  {selectedStyleData?.icon && <selectedStyleData.icon className="w-6 h-6" />}
                 </div>
-              )}
+                <div>
+                  <h4 className="font-medium">{selectedStyleData?.name}</h4>
+                  <p className="text-sm text-muted-foreground">{selectedStyleData?.description}</p>
+                </div>
+              </div>
             </div>
 
             {/* Subject Selection */}
@@ -335,8 +379,10 @@ export function PracticeZone({ user }: PracticeZoneProps) {
 
             {/* Selection Summary */}
             {canStartPractice && (
-              <div className="bg-secondary p-4 rounded-lg">
-                <h4 className="font-medium mb-2">Practice Summary:</h4>
+              <div className="bg-accent/10 p-4 rounded-lg border border-accent/20">
+                <h4 className="font-medium mb-2 flex items-center gap-2">
+                  <span>📋</span> Practice Summary:
+                </h4>
                 <div className="text-sm text-muted-foreground space-y-1">
                   <div>Style: {selectedStyleData?.name}</div>
                   <div>Subject: {selectedSubjectData?.name}</div>
