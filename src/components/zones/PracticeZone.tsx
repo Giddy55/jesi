@@ -4,7 +4,8 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { JesiAssistant } from "@/components/jesi/JesiAssistant";
 import { Badge } from "@/components/ui/badge";
-import { GamepadIcon, Target, Brain, FileText, Clock, Star, Trophy, RotateCcw } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { GamepadIcon, Target, Brain, FileText, Clock, Star, Trophy, RotateCcw, ChevronRight } from "lucide-react";
 import { ShsPractice } from "./shs/ShsPractice";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -21,9 +22,11 @@ export function PracticeZone({ user }: PracticeZoneProps) {
     return <ShsPractice />;
   }
 
-  const [currentStep, setCurrentStep] = useState<"welcome" | "styles" | "subjects" | "practice" | "results">("welcome");
+  const [currentStep, setCurrentStep] = useState<"welcome" | "styles" | "subjects" | "strands" | "substrands" | "practice" | "results">("welcome");
   const [selectedStyle, setSelectedStyle] = useState<string>("");
   const [selectedSubject, setSelectedSubject] = useState<string>("");
+  const [selectedStrand, setSelectedStrand] = useState<string>("");
+  const [selectedSubstrand, setSelectedSubstrand] = useState<string>("");
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [score, setScore] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -72,10 +75,65 @@ export function PracticeZone({ user }: PracticeZoneProps) {
   ];
 
   const subjects = [
-    { id: "math", name: "Mathematics", topic: "Fractions", color: "bg-primary", icon: "📊" },
-    { id: "english", name: "English", topic: "Reading Comprehension", color: "bg-secondary", icon: "📚" },
-    { id: "science", name: "Science", topic: "Plant Biology", color: "bg-accent", icon: "🔬" },
+    { id: "math", name: "Mathematics", color: "bg-primary", icon: "📊" },
+    { id: "english", name: "English", color: "bg-secondary", icon: "📚" },
+    { id: "science", name: "Science", color: "bg-accent", icon: "🔬" },
+    { id: "social", name: "Social Studies", color: "bg-muted", icon: "🌍" },
   ];
+
+  const strands = {
+    math: [
+      { id: "numbers", name: "Numbers & Operations", color: "bg-primary" },
+      { id: "algebra", name: "Algebra", color: "bg-primary" },
+      { id: "geometry", name: "Geometry", color: "bg-primary" },
+      { id: "statistics", name: "Statistics", color: "bg-primary" }
+    ],
+    english: [
+      { id: "reading", name: "Reading Comprehension", color: "bg-secondary" },
+      { id: "writing", name: "Writing", color: "bg-secondary" },
+      { id: "grammar", name: "Grammar", color: "bg-secondary" },
+      { id: "vocabulary", name: "Vocabulary", color: "bg-secondary" }
+    ],
+    science: [
+      { id: "biology", name: "Biology", color: "bg-accent" },
+      { id: "chemistry", name: "Chemistry", color: "bg-accent" },
+      { id: "physics", name: "Physics", color: "bg-accent" },
+      { id: "earth", name: "Earth Science", color: "bg-accent" }
+    ],
+    social: [
+      { id: "history", name: "History", color: "bg-muted" },
+      { id: "geography", name: "Geography", color: "bg-muted" },
+      { id: "civics", name: "Civics", color: "bg-muted" },
+      { id: "economics", name: "Economics", color: "bg-muted" }
+    ]
+  };
+
+  const substrands = {
+    numbers: [
+      { id: "fractions", name: "Fractions" },
+      { id: "decimals", name: "Decimals" },
+      { id: "percentages", name: "Percentages" },
+      { id: "integers", name: "Integers" }
+    ],
+    algebra: [
+      { id: "equations", name: "Linear Equations" },
+      { id: "expressions", name: "Algebraic Expressions" },
+      { id: "inequalities", name: "Inequalities" },
+      { id: "functions", name: "Functions" }
+    ],
+    reading: [
+      { id: "comprehension", name: "Reading Comprehension" },
+      { id: "inference", name: "Making Inferences" },
+      { id: "main-idea", name: "Main Idea" },
+      { id: "vocabulary-context", name: "Vocabulary in Context" }
+    ],
+    biology: [
+      { id: "plants", name: "Plant Biology" },
+      { id: "animals", name: "Animal Biology" },
+      { id: "cells", name: "Cell Structure" },
+      { id: "genetics", name: "Genetics" }
+    ]
+  };
 
   const questions = [
     {
@@ -195,7 +253,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
             ← Back
           </Button>
           <div className={`w-10 h-10 ${style?.color} rounded-lg flex items-center justify-center text-white`}>
-            <style.icon className="w-5 h-5" />
+            {style?.icon && <style.icon className="w-5 h-5" />}
           </div>
           <div>
             <h2 className="text-xl font-bold">{style?.name}</h2>
@@ -215,7 +273,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
               className="p-6 cursor-pointer hover:shadow-md transition-all hover:scale-[1.02]"
               onClick={() => {
                 setSelectedSubject(subject.id);
-                setCurrentStep("practice");
+                setCurrentStep("strands");
               }}
             >
               <div className="flex items-center gap-4">
@@ -224,9 +282,114 @@ export function PracticeZone({ user }: PracticeZoneProps) {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-lg">{subject.name}</h3>
-                  <p className="text-sm text-muted-foreground">Strand: {subject.topic}</p>
+                  <p className="text-sm text-muted-foreground">Select to view strands</p>
                 </div>
-                <Badge variant="secondary">Ready</Badge>
+                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (currentStep === "strands") {
+    const style = practiceStyles.find(s => s.id === selectedStyle);
+    const subject = subjects.find(s => s.id === selectedSubject);
+    const availableStrands = strands[selectedSubject] || [];
+    
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center gap-3 mb-6">
+          <Button variant="outline" onClick={() => setCurrentStep("subjects")}>
+            ← Back
+          </Button>
+          <div className={`w-10 h-10 ${subject?.color} rounded-lg flex items-center justify-center text-white text-xl`}>
+            {subject?.icon}
+          </div>
+          <div>
+            <h2 className="text-xl font-bold">{subject?.name}</h2>
+            <p className="text-muted-foreground">Choose a strand to practice</p>
+          </div>
+        </div>
+
+        <JesiAssistant 
+          message="Perfect! Now select the specific strand you want to focus on 🎯"
+          variant="encouragement"
+        />
+
+        <div className="grid gap-4">
+          {availableStrands.map((strand) => (
+            <Card 
+              key={strand.id} 
+              className="p-6 cursor-pointer hover:shadow-md transition-all hover:scale-[1.02]"
+              onClick={() => {
+                setSelectedStrand(strand.id);
+                setCurrentStep("substrands");
+              }}
+            >
+              <div className="flex items-center gap-4">
+                <div className={`w-12 h-12 ${strand.color} rounded-lg flex items-center justify-center text-white`}>
+                  <Target className="w-6 h-6" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-lg">{strand.name}</h3>
+                  <p className="text-sm text-muted-foreground">Select to view substrands</p>
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (currentStep === "substrands") {
+    const style = practiceStyles.find(s => s.id === selectedStyle);
+    const subject = subjects.find(s => s.id === selectedSubject);
+    const strand = strands[selectedSubject]?.find(s => s.id === selectedStrand);
+    const availableSubstrands = substrands[selectedStrand] || [];
+    
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center gap-3 mb-6">
+          <Button variant="outline" onClick={() => setCurrentStep("strands")}>
+            ← Back
+          </Button>
+          <div className={`w-10 h-10 ${strand?.color} rounded-lg flex items-center justify-center text-white`}>
+            <Brain className="w-5 h-5" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold">{strand?.name}</h2>
+            <p className="text-muted-foreground">Choose a substrand to practice</p>
+          </div>
+        </div>
+
+        <JesiAssistant 
+          message="Almost there! Pick the specific topic you want to practice 🚀"
+          variant="encouragement"
+        />
+
+        <div className="grid gap-4">
+          {availableSubstrands.map((substrand) => (
+            <Card 
+              key={substrand.id} 
+              className="p-6 cursor-pointer hover:shadow-md transition-all hover:scale-[1.02]"
+              onClick={() => {
+                setSelectedSubstrand(substrand.id);
+                setCurrentStep("practice");
+              }}
+            >
+              <div className="flex items-center gap-4">
+                <div className={`w-12 h-12 ${strand?.color} rounded-lg flex items-center justify-center text-white`}>
+                  <FileText className="w-6 h-6" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-lg">{substrand.name}</h3>
+                  <p className="text-sm text-muted-foreground">Ready to practice</p>
+                </div>
+                <Badge variant="secondary">Start</Badge>
               </div>
             </Card>
           ))}
@@ -241,7 +404,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between mb-6">
-          <Button variant="outline" onClick={() => setCurrentStep("subjects")}>
+          <Button variant="outline" onClick={() => setCurrentStep("substrands")}>
             ← Back
           </Button>
           <Badge variant="outline">Question {currentQuestion} of {questions.length}</Badge>
@@ -365,7 +528,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
             Try Again
           </Button>
           <Button 
-            onClick={() => setCurrentStep("subjects")}
+            onClick={() => setCurrentStep("substrands")}
             className="bg-gradient-to-r from-primary to-accent hover:opacity-90"
           >
             <Target className="w-4 h-4 mr-2" />
