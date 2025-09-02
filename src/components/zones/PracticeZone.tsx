@@ -22,7 +22,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
     return <ShsPractice />;
   }
 
-  const [currentStep, setCurrentStep] = useState<"welcome" | "styles" | "subjects" | "strands" | "substrands" | "practice" | "results">("welcome");
+  const [currentStep, setCurrentStep] = useState<"welcome" | "setup" | "practice" | "results">("welcome");
   const [selectedStyle, setSelectedStyle] = useState<string>("");
   const [selectedSubject, setSelectedSubject] = useState<string>("");
   const [selectedStrand, setSelectedStrand] = useState<string>("");
@@ -175,7 +175,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
           </div>
           <Button 
             size="lg"
-            onClick={() => setCurrentStep("styles")}
+            onClick={() => setCurrentStep("setup")}
             className="bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             Let's Practice! 🎯
@@ -185,215 +185,168 @@ export function PracticeZone({ user }: PracticeZoneProps) {
     );
   }
 
-  if (currentStep === "styles") {
+  if (currentStep === "setup") {
+    const canStartPractice = selectedStyle && selectedSubject && selectedStrand && selectedSubstrand;
+    const selectedStyleData = practiceStyles.find(s => s.id === selectedStyle);
+    const selectedSubjectData = subjects.find(s => s.id === selectedSubject);
+    const availableStrands = selectedSubject ? strands[selectedSubject] || [] : [];
+    const availableSubstrands = selectedStrand ? substrands[selectedStrand] || [] : [];
+    
     return (
       <div className="space-y-6">
+        <div className="flex items-center gap-3 mb-6">
+          <Button variant="outline" onClick={() => setCurrentStep("welcome")}>
+            ← Back
+          </Button>
+          <div>
+            <h2 className="text-xl font-bold">Setup Your Practice</h2>
+            <p className="text-muted-foreground">Choose your practice preferences</p>
+          </div>
+        </div>
+
         <JesiAssistant 
-          message={`Ready to practice, ${firstName}? Pick your style! 🚀`}
+          message={`Ready to practice, ${firstName}? Just pick your preferences and let's get started! 🚀`}
           variant="encouragement"
         />
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {practiceStyles.map((style) => (
-            <Card 
-              key={style.id} 
-              className="p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-[1.02] bg-card border border-border"
-            >
-              <div className="space-y-4">
-                {/* Icon and Title */}
-                <div className="text-center space-y-3">
-                  <div className={`w-16 h-16 ${style.color} rounded-full flex items-center justify-center text-white mx-auto`}>
-                    <style.icon className="w-8 h-8" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-xl mb-1">{style.name}</h3>
-                    <p className="text-sm text-muted-foreground">{style.description}</p>
-                  </div>
-                </div>
-
-                {/* Features */}
-                <div className="space-y-2">
-                  {style.features.map((feature, index) => (
-                    <div key={index} className="flex items-center gap-2 text-sm">
-                      <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-                        <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
+        <Card className="p-6">
+          <div className="space-y-6">
+            {/* Practice Style Selection */}
+            <div className="space-y-3">
+              <label className="text-sm font-medium">Practice Style</label>
+              <Select value={selectedStyle} onValueChange={setSelectedStyle}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Choose how you want to practice" />
+                </SelectTrigger>
+                <SelectContent>
+                  {practiceStyles.map((style) => (
+                    <SelectItem key={style.id} value={style.id}>
+                      <div className="flex items-center gap-3">
+                        <div className={`w-8 h-8 ${style.color} rounded-md flex items-center justify-center text-white`}>
+                          <style.icon className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <div className="font-medium">{style.name}</div>
+                          <div className="text-xs text-muted-foreground">{style.duration}</div>
+                        </div>
                       </div>
-                      <span className="text-muted-foreground">{feature}</span>
-                    </div>
+                    </SelectItem>
                   ))}
+                </SelectContent>
+              </Select>
+              {selectedStyleData && (
+                <div className="text-xs text-muted-foreground p-3 bg-muted rounded-md">
+                  {selectedStyleData.description}
                 </div>
+              )}
+            </div>
 
-                {/* Start Button */}
-                <Button 
-                  className="w-full h-12 text-base font-medium bg-primary text-primary-foreground hover:bg-primary/90"
-                  onClick={() => {
-                    setSelectedStyle(style.id);
-                    setCurrentStep("subjects");
-                  }}
-                >
-                  Start {style.name}
-                </Button>
+            {/* Subject Selection */}
+            <div className="space-y-3">
+              <label className="text-sm font-medium">Subject</label>
+              <Select value={selectedSubject} onValueChange={(value) => {
+                setSelectedSubject(value);
+                setSelectedStrand("");
+                setSelectedSubstrand("");
+              }}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Choose a subject" />
+                </SelectTrigger>
+                <SelectContent>
+                  {subjects.map((subject) => (
+                    <SelectItem key={subject.id} value={subject.id}>
+                      <div className="flex items-center gap-3">
+                        <div className={`w-8 h-8 ${subject.color} rounded-md flex items-center justify-center text-white text-sm`}>
+                          {subject.icon}
+                        </div>
+                        <span className="font-medium">{subject.name}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Strand Selection */}
+            <div className="space-y-3">
+              <label className="text-sm font-medium">Strand</label>
+              <Select 
+                value={selectedStrand} 
+                onValueChange={(value) => {
+                  setSelectedStrand(value);
+                  setSelectedSubstrand("");
+                }}
+                disabled={!selectedSubject}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder={selectedSubject ? "Choose a strand" : "Select a subject first"} />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableStrands.map((strand) => (
+                    <SelectItem key={strand.id} value={strand.id}>
+                      <div className="flex items-center gap-3">
+                        <div className={`w-8 h-8 ${strand.color} rounded-md flex items-center justify-center text-white`}>
+                          <Target className="w-4 h-4" />
+                        </div>
+                        <span className="font-medium">{strand.name}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Substrand Selection */}
+            <div className="space-y-3">
+              <label className="text-sm font-medium">Substrand</label>
+              <Select 
+                value={selectedSubstrand} 
+                onValueChange={setSelectedSubstrand}
+                disabled={!selectedStrand}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder={selectedStrand ? "Choose a substrand" : "Select a strand first"} />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableSubstrands.map((substrand) => (
+                    <SelectItem key={substrand.id} value={substrand.id}>
+                      <div className="flex items-center gap-3">
+                        <div className={`w-8 h-8 ${selectedSubjectData?.color} rounded-md flex items-center justify-center text-white`}>
+                          <FileText className="w-4 h-4" />
+                        </div>
+                        <span className="font-medium">{substrand.name}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Start Practice Button */}
+            <div className="pt-4">
+              <Button 
+                className="w-full h-12 text-base font-medium bg-gradient-to-r from-primary to-accent hover:opacity-90"
+                onClick={() => setCurrentStep("practice")}
+                disabled={!canStartPractice}
+              >
+                {canStartPractice ? "Start Practice! 🚀" : "Please complete all selections"}
+              </Button>
+            </div>
+
+            {/* Selection Summary */}
+            {canStartPractice && (
+              <div className="bg-secondary p-4 rounded-lg">
+                <h4 className="font-medium mb-2">Practice Summary:</h4>
+                <div className="text-sm text-muted-foreground space-y-1">
+                  <div>Style: {selectedStyleData?.name}</div>
+                  <div>Subject: {selectedSubjectData?.name}</div>
+                  <div>Strand: {availableStrands.find(s => s.id === selectedStrand)?.name}</div>
+                  <div>Substrand: {availableSubstrands.find(s => s.id === selectedSubstrand)?.name}</div>
+                </div>
               </div>
-            </Card>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (currentStep === "subjects") {
-    const style = practiceStyles.find(s => s.id === selectedStyle);
-    
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center gap-3 mb-6">
-          <Button variant="outline" onClick={() => setCurrentStep("styles")}>
-            ← Back
-          </Button>
-          <div className={`w-10 h-10 ${style?.color} rounded-lg flex items-center justify-center text-white`}>
-            {style?.icon && <style.icon className="w-5 h-5" />}
+            )}
           </div>
-          <div>
-            <h2 className="text-xl font-bold">{style?.name}</h2>
-            <p className="text-muted-foreground">Choose a subject to practice</p>
-          </div>
-        </div>
-
-        <JesiAssistant 
-          message="Great choice! Now pick a subject you want to master 🎯"
-          variant="encouragement"
-        />
-
-        <div className="grid gap-4">
-          {subjects.map((subject) => (
-            <Card 
-              key={subject.id} 
-              className="p-6 cursor-pointer hover:shadow-md transition-all hover:scale-[1.02]"
-              onClick={() => {
-                setSelectedSubject(subject.id);
-                setCurrentStep("strands");
-              }}
-            >
-              <div className="flex items-center gap-4">
-                <div className={`w-12 h-12 ${subject.color} rounded-lg flex items-center justify-center text-white text-xl`}>
-                  {subject.icon}
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-lg">{subject.name}</h3>
-                  <p className="text-sm text-muted-foreground">Select to view strands</p>
-                </div>
-                <ChevronRight className="w-5 h-5 text-muted-foreground" />
-              </div>
-            </Card>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (currentStep === "strands") {
-    const style = practiceStyles.find(s => s.id === selectedStyle);
-    const subject = subjects.find(s => s.id === selectedSubject);
-    const availableStrands = strands[selectedSubject] || [];
-    
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center gap-3 mb-6">
-          <Button variant="outline" onClick={() => setCurrentStep("subjects")}>
-            ← Back
-          </Button>
-          <div className={`w-10 h-10 ${subject?.color} rounded-lg flex items-center justify-center text-white text-xl`}>
-            {subject?.icon}
-          </div>
-          <div>
-            <h2 className="text-xl font-bold">{subject?.name}</h2>
-            <p className="text-muted-foreground">Choose a strand to practice</p>
-          </div>
-        </div>
-
-        <JesiAssistant 
-          message="Perfect! Now select the specific strand you want to focus on 🎯"
-          variant="encouragement"
-        />
-
-        <div className="grid gap-4">
-          {availableStrands.map((strand) => (
-            <Card 
-              key={strand.id} 
-              className="p-6 cursor-pointer hover:shadow-md transition-all hover:scale-[1.02]"
-              onClick={() => {
-                setSelectedStrand(strand.id);
-                setCurrentStep("substrands");
-              }}
-            >
-              <div className="flex items-center gap-4">
-                <div className={`w-12 h-12 ${strand.color} rounded-lg flex items-center justify-center text-white`}>
-                  <Target className="w-6 h-6" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-lg">{strand.name}</h3>
-                  <p className="text-sm text-muted-foreground">Select to view substrands</p>
-                </div>
-                <ChevronRight className="w-5 h-5 text-muted-foreground" />
-              </div>
-            </Card>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (currentStep === "substrands") {
-    const style = practiceStyles.find(s => s.id === selectedStyle);
-    const subject = subjects.find(s => s.id === selectedSubject);
-    const strand = strands[selectedSubject]?.find(s => s.id === selectedStrand);
-    const availableSubstrands = substrands[selectedStrand] || [];
-    
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center gap-3 mb-6">
-          <Button variant="outline" onClick={() => setCurrentStep("strands")}>
-            ← Back
-          </Button>
-          <div className={`w-10 h-10 ${strand?.color} rounded-lg flex items-center justify-center text-white`}>
-            <Brain className="w-5 h-5" />
-          </div>
-          <div>
-            <h2 className="text-xl font-bold">{strand?.name}</h2>
-            <p className="text-muted-foreground">Choose a substrand to practice</p>
-          </div>
-        </div>
-
-        <JesiAssistant 
-          message="Almost there! Pick the specific topic you want to practice 🚀"
-          variant="encouragement"
-        />
-
-        <div className="grid gap-4">
-          {availableSubstrands.map((substrand) => (
-            <Card 
-              key={substrand.id} 
-              className="p-6 cursor-pointer hover:shadow-md transition-all hover:scale-[1.02]"
-              onClick={() => {
-                setSelectedSubstrand(substrand.id);
-                setCurrentStep("practice");
-              }}
-            >
-              <div className="flex items-center gap-4">
-                <div className={`w-12 h-12 ${strand?.color} rounded-lg flex items-center justify-center text-white`}>
-                  <FileText className="w-6 h-6" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-lg">{substrand.name}</h3>
-                  <p className="text-sm text-muted-foreground">Ready to practice</p>
-                </div>
-                <Badge variant="secondary">Start</Badge>
-              </div>
-            </Card>
-          ))}
-        </div>
+        </Card>
       </div>
     );
   }
@@ -404,7 +357,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between mb-6">
-          <Button variant="outline" onClick={() => setCurrentStep("substrands")}>
+          <Button variant="outline" onClick={() => setCurrentStep("setup")}>
             ← Back
           </Button>
           <Badge variant="outline">Question {currentQuestion} of {questions.length}</Badge>
@@ -528,7 +481,7 @@ export function PracticeZone({ user }: PracticeZoneProps) {
             Try Again
           </Button>
           <Button 
-            onClick={() => setCurrentStep("substrands")}
+            onClick={() => setCurrentStep("setup")}
             className="bg-gradient-to-r from-primary to-accent hover:opacity-90"
           >
             <Target className="w-4 h-4 mr-2" />
