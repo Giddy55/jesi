@@ -198,6 +198,19 @@ export function RedemptionZone({ totalCoins, onCoinsUpdate }: RedemptionZoneProp
               <p className="text-sm text-muted-foreground mt-2">
                 Congratulations on your dedication to learning! Keep earning coins for future achievements.
               </p>
+              
+              {/* Benefits List */}
+              <div className="mt-6 bg-white p-4 rounded-lg border border-green-200">
+                <p className="font-semibold text-gray-700 text-left mb-3">🎁 Your Benefits:</p>
+                <ul className="space-y-2 text-left">
+                  {specialReward.benefits.map((benefit, index) => (
+                    <li key={index} className="flex items-center gap-2 text-sm">
+                      <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                      <span>{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </CardContent>
         </Card>

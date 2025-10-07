@@ -358,6 +358,41 @@ export function StreakZone({ totalCoins = 0, onCoinsUpdate }: StreakZoneProps = 
       </Card>
 
 
+      {/* My Redeemed Rewards */}
+      {rewards.some(r => r.owned) && (
+        <Card className="border-2 border-primary/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Gift className="w-5 h-5" />
+              My Redeemed Rewards
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {rewards.filter(r => r.owned).map((reward) => (
+                <Card key={reward.id} className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
+                  <CardContent className="p-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center text-3xl bg-white shadow-sm">
+                        {reward.icon}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold mb-1">{reward.name}</h3>
+                        <p className="text-sm text-muted-foreground">{reward.description}</p>
+                        <Badge variant="secondary" className="text-xs mt-2">
+                          <CheckCircle className="w-3 h-3 mr-1" />
+                          Owned
+                        </Badge>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Streak Leaderboard */}
       <Card>
         <CardHeader>
