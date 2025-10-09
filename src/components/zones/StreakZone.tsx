@@ -332,16 +332,9 @@ export function StreakZone({ totalCoins = 0, onCoinsUpdate }: StreakZoneProps = 
                         <p className="text-sm text-muted-foreground mb-2">{activity.description}</p>
                         
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <Badge variant="secondary" className="text-xs">
-                              {activity.points} coins
-                            </Badge>
-                            <Badge variant="outline" className="text-xs">
-                              {activity.streak}
-                            </Badge>
-                          </div>
-                          
-                          {/* Complete button removed per UX request */}
+                          <Badge variant="secondary" className="text-xs">
+                            {activity.points} coins
+                          </Badge>
                           
                           {activity.completed && (
                             <CheckCircle className="w-5 h-5 text-green-500" />
