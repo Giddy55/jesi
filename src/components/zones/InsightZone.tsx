@@ -205,49 +205,49 @@ export function InsightZone({ userType, user, onZoneChange }: InsightZoneProps) 
             {selectedPeriod === "week" ? "This Week's Highlights" : "This Month's Highlights"}
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
-            <div className="flex items-center gap-4 sm:flex-col sm:text-center p-4 rounded-lg bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 hover-scale animate-fade-in">
-              <div className="p-3 rounded-full bg-orange-500 text-white">
+            <div className="flex items-center gap-4 sm:flex-col sm:text-center p-4 rounded-lg bg-background border border-border hover:border-primary/30 hover-scale animate-fade-in transition-colors">
+              <div className="p-3 rounded-full bg-primary/10 text-primary">
                 <Flame className="w-6 h-6" />
               </div>
               <div className="flex-1 sm:flex-initial">
-                <div className="text-2xl font-bold text-orange-600">{currentStats.streak}</div>
-                <div className="text-sm text-orange-700 font-medium">Day Streak</div>
+                <div className="text-2xl font-bold text-foreground">{currentStats.streak}</div>
+                <div className="text-sm text-muted-foreground font-medium">Day Streak</div>
               </div>
             </div>
-            <div className="flex items-center gap-4 sm:flex-col sm:text-center p-4 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 hover-scale animate-fade-in" style={{ animationDelay: '0.1s' }}>
-              <div className="p-3 rounded-full bg-blue-500 text-white">
+            <div className="flex items-center gap-4 sm:flex-col sm:text-center p-4 rounded-lg bg-background border border-border hover:border-primary/30 hover-scale animate-fade-in transition-colors" style={{ animationDelay: '0.1s' }}>
+              <div className="p-3 rounded-full bg-primary/10 text-primary">
                 <BookOpen className="w-6 h-6" />
               </div>
               <div className="flex-1 sm:flex-initial">
-                <div className="text-2xl font-bold text-blue-600">{currentStats.lessonsCompleted}</div>
-                <div className="text-sm text-blue-700 font-medium">Lessons Done</div>
+                <div className="text-2xl font-bold text-foreground">{currentStats.lessonsCompleted}</div>
+                <div className="text-sm text-muted-foreground font-medium">Lessons Done</div>
               </div>
             </div>
-            <div className="flex items-center gap-4 sm:flex-col sm:text-center p-4 rounded-lg bg-gradient-to-br from-green-50 to-green-100 border border-green-200 hover-scale animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              <div className="p-3 rounded-full bg-green-500 text-white">
+            <div className="flex items-center gap-4 sm:flex-col sm:text-center p-4 rounded-lg bg-background border border-border hover:border-primary/30 hover-scale animate-fade-in transition-colors" style={{ animationDelay: '0.2s' }}>
+              <div className="p-3 rounded-full bg-primary/10 text-primary">
                 <Target className="w-6 h-6" />
               </div>
               <div className="flex-1 sm:flex-initial">
-                <div className="text-2xl font-bold text-green-600">{currentStats.practiceSession}</div>
-                <div className="text-sm text-green-700 font-medium">Practice Sessions</div>
+                <div className="text-2xl font-bold text-foreground">{currentStats.practiceSession}</div>
+                <div className="text-sm text-muted-foreground font-medium">Practice Sessions</div>
               </div>
             </div>
-            <div className="flex items-center gap-4 sm:flex-col sm:text-center p-4 rounded-lg bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 hover-scale animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              <div className="p-3 rounded-full bg-purple-500 text-white">
+            <div className="flex items-center gap-4 sm:flex-col sm:text-center p-4 rounded-lg bg-background border border-border hover:border-primary/30 hover-scale animate-fade-in transition-colors" style={{ animationDelay: '0.3s' }}>
+              <div className="p-3 rounded-full bg-primary/10 text-primary">
                 <Clock className="w-6 h-6" />
               </div>
               <div className="flex-1 sm:flex-initial">
-                <div className="text-2xl font-bold text-purple-600">{currentStats.timeSpent}</div>
-                <div className="text-sm text-purple-700 font-medium">Time Spent</div>
+                <div className="text-2xl font-bold text-foreground">{currentStats.timeSpent}</div>
+                <div className="text-sm text-muted-foreground font-medium">Time Spent</div>
               </div>
             </div>
-            <div className="flex items-center gap-4 sm:flex-col sm:text-center p-4 rounded-lg bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-200 hover-scale animate-fade-in" style={{ animationDelay: '0.4s' }}>
-              <div className="p-3 rounded-full bg-yellow-500 text-white">
+            <div className="flex items-center gap-4 sm:flex-col sm:text-center p-4 rounded-lg bg-background border border-border hover:border-primary/30 hover-scale animate-fade-in transition-colors" style={{ animationDelay: '0.4s' }}>
+              <div className="p-3 rounded-full bg-primary/10 text-primary">
                 <Trophy className="w-6 h-6" />
               </div>
               <div className="flex-1 sm:flex-initial">
-                <div className="text-2xl font-bold text-yellow-600">{currentStats.topSubject}</div>
-                <div className="text-sm text-yellow-700 font-medium">Top Subject</div>
+                <div className="text-2xl font-bold text-foreground">{currentStats.topSubject}</div>
+                <div className="text-sm text-muted-foreground font-medium">Top Subject</div>
               </div>
             </div>
           </div>
