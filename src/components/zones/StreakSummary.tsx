@@ -15,8 +15,9 @@ interface StreakSummaryProps {
 export function StreakSummary({ dailyProgress, currentStreak, coins = 0 }: StreakSummaryProps) {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const today = new Date().getDay();
-  // Calculate progress through the week (Sunday = 0, Saturday = 6)
-  const percent = ((today + 1) / 7) * 100;
+  
+  // Mock data: days used (true/false for each day)
+  const weekActivity = [true, true, false, true, true, true, true]; // Example: missed Wednesday
 
   const [displayedCoins, setDisplayedCoins] = useState(0);
   const [finished, setFinished] = useState(false);
@@ -67,42 +68,57 @@ export function StreakSummary({ dailyProgress, currentStreak, coins = 0 }: Strea
           <div className="text-center space-y-6">
             <div className="space-y-1">
               <h2 className="text-xl font-semibold">Weekly Progress</h2>
-              <p className="text-muted-foreground text-sm">Your journey from Sunday to Saturday</p>
+              <p className="text-muted-foreground text-sm">Track your daily learning journey</p>
             </div>
 
-            <div className="relative mx-auto max-w-sm">
-              <CircularProgress value={percent} size={180} ariaLabel="Week progress from Sunday to Saturday" />
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <div className="text-3xl sm:text-4xl font-bold tracking-tight" aria-label={`${currentStreak} days current streak`}>
-                  {currentStreak}
-                </div>
-                <div className="text-sm text-muted-foreground">day streak</div>
+            {/* Week Calendar with 3 color states */}
+            <div className="flex items-center justify-center gap-2 sm:gap-3 pt-2 animate-fade-in">
+              {days.map((d, idx) => {
+                const isToday = idx === today;
+                const isPast = idx < today;
+                const isUsed = weekActivity[idx];
+                
+                return (
+                  <div key={idx} className="flex flex-col items-center gap-2">
+                    <div
+                      className={cn(
+                        "w-12 h-12 sm:w-14 sm:h-14 rounded-lg grid place-items-center text-xs font-semibold border-2 transition-all duration-200",
+                        isToday
+                          ? "bg-blue-500 text-white border-blue-600 shadow-lg scale-110 ring-2 ring-blue-300"
+                          : isPast && isUsed
+                          ? "bg-green-500 text-white border-green-600"
+                          : isPast && !isUsed
+                          ? "bg-red-100 text-red-600 border-red-300"
+                          : "bg-muted/50 text-muted-foreground border-border"
+                      )}
+                      role="status"
+                      aria-label={`${d}${isToday ? " (today)" : isPast && isUsed ? " (completed)" : isPast && !isUsed ? " (missed)" : ""}`}
+                    >
+                      {d.slice(0, 1)}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Legend */}
+            <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground pt-2">
+              <div className="flex items-center gap-1.5">
+                <div className="w-3 h-3 rounded bg-green-500" />
+                <span>Completed</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-3 h-3 rounded bg-blue-500" />
+                <span>Today</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-3 h-3 rounded bg-red-100 border border-red-300" />
+                <span>Missed</span>
               </div>
             </div>
 
-            <div className="flex items-center justify-center gap-1 sm:gap-2 pt-2 animate-fade-in">
-              {days.map((d, idx) => (
-                <div
-                  key={idx}
-                  className={cn(
-                    "w-10 h-10 sm:w-11 sm:h-11 rounded-full grid place-items-center text-xs font-medium border transition-all duration-200",
-                    idx === today
-                      ? "bg-primary text-primary-foreground border-primary shadow-lg scale-110"
-                      : idx < today
-                      ? "bg-accent text-accent-foreground border-accent"
-                      : "bg-muted/50 text-muted-foreground border-border"
-                  )}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`${d}${idx === today ? " (today)" : ""}`}
-                >
-                  {d.slice(0, 1)}
-                </div>
-              ))}
-            </div>
-
             <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground pt-1" aria-live="polite">
-              <span>coins</span>
+              <span>Total Coins</span>
               <span role="img" aria-label="coin" className="text-base">🪙</span>
               <span className={cn("tabular-nums font-semibold text-foreground", finished ? "animate-scale-in" : "")}>{displayedCoins}</span>
             </div>

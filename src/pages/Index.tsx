@@ -17,11 +17,19 @@ const Index = () => {
   const { user, login, logout, isAuthenticated } = useAuth();
   const [activeZone, setActiveZone] = useState<string>(user?.level === "shs" ? "welcome" : "class");
   const [totalCoins, setTotalCoins] = useState(1500); // Demo starting coins - increased to show redemption
+  const [showLanding, setShowLanding] = useState(false);
 
-  // If not authenticated, show landing page
-  if (!isAuthenticated) {
-    return <Landing onLogin={login} />;
+  // If not authenticated or user chose to go back to landing, show landing page
+  if (!isAuthenticated || showLanding) {
+    return <Landing onLogin={(userType, userData) => {
+      login(userType, userData);
+      setShowLanding(false);
+    }} />;
   }
+
+  const handleBackToHome = () => {
+    setShowLanding(true);
+  };
 
   const renderActiveZone = () => {
     const userType = user?.type as "student" | "parent" | "admin";
@@ -56,6 +64,7 @@ const Index = () => {
             userType={user?.type as "student" | "parent" | "admin"}
             user={user}
             onLogout={logout}
+            onBackToHome={handleBackToHome}
             totalCoins={totalCoins}
           />
           <main id="main-content" className="flex-1 max-w-4xl" role="main">

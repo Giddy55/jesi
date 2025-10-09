@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { BookOpen, GraduationCap, Target, BarChart3, User, Menu, X, Flame, LogOut, Coins } from "lucide-react";
+import { BookOpen, GraduationCap, Target, BarChart3, User, Menu, X, Flame, LogOut, Coins, Home } from "lucide-react";
 import coinsIcon from "@/assets/coins-icon.png";
 import {
   DropdownMenu,
@@ -18,10 +18,11 @@ interface NavigationProps {
   userType: "student" | "parent" | "admin";
   user?: any;
   onLogout?: () => void;
+  onBackToHome?: () => void;
   totalCoins?: number;
 }
 
-export function Navigation({ activeZone, onZoneChange, userType, user, onLogout, totalCoins = 0 }: NavigationProps) {
+export function Navigation({ activeZone, onZoneChange, userType, user, onLogout, onBackToHome, totalCoins = 0 }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const zones = [
@@ -101,6 +102,19 @@ export function Navigation({ activeZone, onZoneChange, userType, user, onLogout,
       {isMenuOpen && (
         <nav className="lg:hidden bg-white border-b shadow-sm" id="mobile-menu" aria-label="Main navigation">
           <div className="p-4 space-y-2">
+            {onBackToHome && (
+              <Button
+                variant="outline"
+                className="w-full justify-start gap-3 mb-3 border-primary/20 hover:bg-primary/5"
+                onClick={() => {
+                  onBackToHome();
+                  setIsMenuOpen(false);
+                }}
+              >
+                <Home className="w-5 h-5" />
+                Back to Home
+              </Button>
+            )}
             {zones.map((zone) => (
                 <Button
                 key={zone.id}
@@ -134,6 +148,17 @@ export function Navigation({ activeZone, onZoneChange, userType, user, onLogout,
             </div>
           </div>
 
+
+          {onBackToHome && (
+            <Button
+              variant="outline"
+              className="w-full justify-start gap-3 h-12 mb-4 border-primary/20 hover:bg-primary/5"
+              onClick={onBackToHome}
+            >
+              <Home className="w-5 h-5" />
+              Back to Home
+            </Button>
+          )}
 
           <nav className="space-y-2" aria-label="Main navigation">
             {zones.map((zone) => (
