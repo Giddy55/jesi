@@ -30,18 +30,58 @@ export function InsightZone({ userType, user, onZoneChange }: InsightZoneProps) 
     return <ShsInsights userType={userType} onZoneChange={onZoneChange} />;
   }
 
-  const studentProgress = {
-    math: { score: 85, trend: "up", status: "improving", color: "bg-green-500" },
-    english: { score: 72, trend: "down", status: "needs practice", color: "bg-yellow-500" },
-    science: { score: 90, trend: "up", status: "excellent", color: "bg-green-500" },
-    social: { score: 68, trend: "neutral", status: "on track", color: "bg-blue-500" },
+  const weeklyScores = {
+    math: { 
+      homework: [85, 92, 78, 88], 
+      tests: [90, 85], 
+      average: 86,
+      trend: "up"
+    },
+    english: { 
+      homework: [70, 68, 75, 72], 
+      tests: [65, 70], 
+      average: 70,
+      trend: "down"
+    },
+    science: { 
+      homework: [95, 88, 92, 90], 
+      tests: [92, 88], 
+      average: 91,
+      trend: "up"
+    },
+    social: { 
+      homework: [65, 70, 68, 72], 
+      tests: [70, 68], 
+      average: 69,
+      trend: "neutral"
+    },
   };
 
-  const monthlyProgress = {
-    math: { score: 78, trend: "up", status: "improving", color: "bg-green-500" },
-    english: { score: 65, trend: "up", status: "improving", color: "bg-blue-500" },
-    science: { score: 88, trend: "neutral", status: "excellent", color: "bg-green-500" },
-    social: { score: 71, trend: "up", status: "on track", color: "bg-blue-500" },
+  const monthlyScores = {
+    math: { 
+      homework: [85, 92, 78, 88, 80, 90, 85, 88, 92, 87, 84, 89], 
+      tests: [90, 85, 88, 82], 
+      average: 86,
+      trend: "up"
+    },
+    english: { 
+      homework: [70, 68, 75, 72, 65, 78, 70, 72, 68, 75, 70, 73], 
+      tests: [65, 70, 72, 68], 
+      average: 71,
+      trend: "up"
+    },
+    science: { 
+      homework: [95, 88, 92, 90, 85, 90, 92, 88, 95, 90, 88, 92], 
+      tests: [92, 88, 90, 94], 
+      average: 90,
+      trend: "neutral"
+    },
+    social: { 
+      homework: [65, 70, 68, 72, 75, 70, 68, 72, 70, 75, 68, 72], 
+      tests: [70, 68, 72, 75], 
+      average: 71,
+      trend: "up"
+    },
   };
 
   const weeklyStats = {
@@ -114,7 +154,7 @@ export function InsightZone({ userType, user, onZoneChange }: InsightZoneProps) 
     },
   ];
 
-  const currentProgress = selectedPeriod === "week" ? studentProgress : monthlyProgress;
+  const currentScores = selectedPeriod === "week" ? weeklyScores : monthlyScores;
   const currentStats = selectedPeriod === "week" ? weeklyStats : monthlyStats;
   const currentRecommendations = selectedPeriod === "week" ? weeklyRecommendations : monthlyRecommendations;
 
@@ -204,75 +244,91 @@ export function InsightZone({ userType, user, onZoneChange }: InsightZoneProps) 
           </div>
         </Card>
 
-        {/* Subject Progress Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          {Object.entries(currentProgress).map(([subject, data]) => (
-            <Card 
-              key={subject} 
-              className="p-6 cursor-pointer hover:shadow-lg transition-all hover:scale-105"
-              onClick={() => {
-                if (data.status === "needs practice" && onZoneChange) {
-                  // Navigate to practice with specific subject
-                  onZoneChange("practice");
-                  toast({
-                    title: `Starting ${subject} practice`,
-                    description: "Let's work on improving your skills!",
-                  });
-                } else {
-                  toast({
-                    title: `${subject} Performance`,
-                    description: `Current score: ${data.score}% - ${data.status}`,
-                  });
-                }
-              }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-semibold capitalize text-lg">{subject}</h3>
-                <div className="flex items-center gap-2">
-                  {data.trend === "up" && <TrendingUp className="w-5 h-5 text-green-500" />}
-                  {data.trend === "down" && <TrendingDown className="w-5 h-5 text-red-500" />}
-                  <Badge 
-                    variant={data.status === "excellent" ? "default" : data.status === "improving" ? "secondary" : "outline"}
-                    className={data.status === "excellent" ? "bg-green-500" : data.status === "improving" ? "bg-blue-500" : ""}
-                  >
-                    {data.status}
-                  </Badge>
+        {/* Week's Scores - Homework & Tests */}
+        <div className="space-y-4 mb-6">
+          <h3 className="text-xl font-semibold flex items-center gap-2">
+            <BookOpen className="w-5 h-5 text-primary" />
+            {selectedPeriod === "week" ? "This Week's Scores" : "This Month's Scores"}
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {Object.entries(currentScores).map(([subject, data]) => (
+              <Card key={subject} className="p-6 hover:shadow-lg transition-all">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="font-semibold capitalize text-lg">{subject}</h4>
+                  <div className="flex items-center gap-2">
+                    {data.trend === "up" && <TrendingUp className="w-5 h-5 text-green-500" />}
+                    {data.trend === "down" && <TrendingDown className="w-5 h-5 text-red-500" />}
+                    <div className="text-2xl font-bold text-primary">{data.average}%</div>
+                  </div>
                 </div>
-              </div>
-              <div className="space-y-3">
-                <div className="flex justify-between text-sm">
-                  <span>Progress</span>
-                  <span className="font-medium">{data.score}%</span>
+                
+                <div className="space-y-4">
+                  {/* Homework Scores */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-sm font-medium text-muted-foreground">📝 Homework</span>
+                      <span className="text-xs text-muted-foreground">
+                        ({data.homework.length} assignments)
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {data.homework.map((score, idx) => (
+                        <Badge 
+                          key={idx} 
+                          variant="outline"
+                          className={
+                            score >= 80 
+                              ? "bg-green-500/10 text-green-700 border-green-500/20" 
+                              : score >= 70 
+                              ? "bg-blue-500/10 text-blue-700 border-blue-500/20"
+                              : "bg-yellow-500/10 text-yellow-700 border-yellow-500/20"
+                          }
+                        >
+                          {score}%
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Test Scores */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-sm font-medium text-muted-foreground">📊 Tests</span>
+                      <span className="text-xs text-muted-foreground">
+                        ({data.tests.length} tests)
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {data.tests.map((score, idx) => (
+                        <Badge 
+                          key={idx}
+                          variant="outline"
+                          className={
+                            score >= 80 
+                              ? "bg-green-500/10 text-green-700 border-green-500/20" 
+                              : score >= 70 
+                              ? "bg-blue-500/10 text-blue-700 border-blue-500/20"
+                              : "bg-yellow-500/10 text-yellow-700 border-yellow-500/20"
+                          }
+                        >
+                          {score}%
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Average with Progress Bar */}
+                  <div className="pt-2 border-t">
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="font-medium">Average</span>
+                      <span className="font-bold text-primary">{data.average}%</span>
+                    </div>
+                    <Progress value={data.average} className="h-2" />
+                  </div>
                 </div>
-                <Progress value={data.score} className="h-3" />
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-muted-foreground">
-                    {data.status === "excellent" ? "🟢 You're doing great!" :
-                     data.status === "improving" ? "📈 Keep going!" :
-                     data.status === "needs practice" ? "⚠️ Let's catch up!" : "✅ On track!"}
-                  </p>
-                  {data.status === "needs practice" && (
-                    <Button 
-                      size="sm" 
-                      variant="outline"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (onZoneChange) {
-                          onZoneChange("practice");
-                          toast({
-                            title: `Starting ${subject} practice`,
-                            description: "Focus on areas that need improvement!",
-                          });
-                        }
-                      }}
-                    >
-                      Practice Now
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </Card>
-          ))}
+              </Card>
+            ))}
+          </div>
         </div>
 
         {/* Recommendations */}
@@ -358,13 +414,13 @@ export function InsightZone({ userType, user, onZoneChange }: InsightZoneProps) 
       <Card className="p-6">
         <h3 className="text-lg font-semibold mb-4">Subject Performance</h3>
         <div className="space-y-4">
-          {Object.entries(currentProgress).map(([subject, data]) => (
+          {Object.entries(currentScores).map(([subject, data]) => (
             <div key={subject} className="flex items-center gap-4">
               <div className="w-24 capitalize font-medium">{subject}</div>
               <div className="flex-1">
-                <Progress value={data.score} className="h-3" />
+                <Progress value={data.average} className="h-3" />
               </div>
-              <div className="w-16 text-right font-medium">{data.score}%</div>
+              <div className="w-16 text-right font-medium">{data.average}%</div>
               <div className="w-24">
                 {data.trend === "up" && <Badge className="bg-green-500">Improving</Badge>}
                 {data.trend === "down" && <Badge variant="destructive">Needs Help</Badge>}
