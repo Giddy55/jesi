@@ -245,28 +245,34 @@ export function InsightZone({ userType, user, onZoneChange }: InsightZoneProps) 
         </Card>
 
         {/* Subject Performance */}
-        <Card className="p-6">
+        <div className="space-y-4">
           <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
             <BookOpen className="w-5 h-5 text-primary" />
             Subject Performance
           </h3>
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {Object.entries(currentScores).map(([subject, data]) => (
-              <div key={subject} className="flex items-center gap-4">
-                <div className="w-24 capitalize font-medium">{subject}</div>
-                <div className="flex-1">
+              <Card key={subject} className="p-6 hover:shadow-lg transition-all">
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="font-semibold capitalize text-lg">{subject}</h4>
+                  {data.trend === "up" && <TrendingUp className="w-5 h-5 text-green-500" />}
+                  {data.trend === "down" && <TrendingDown className="w-5 h-5 text-red-500" />}
+                </div>
+                <div className="space-y-3">
                   <Progress value={data.average} className="h-3" />
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl font-bold text-primary">{data.average}%</span>
+                    <div>
+                      {data.trend === "up" && <Badge className="bg-green-500">Improving</Badge>}
+                      {data.trend === "down" && <Badge variant="destructive">Needs Help</Badge>}
+                      {data.trend === "neutral" && <Badge variant="outline">Steady</Badge>}
+                    </div>
+                  </div>
                 </div>
-                <div className="w-16 text-right font-medium">{data.average}%</div>
-                <div className="w-24">
-                  {data.trend === "up" && <Badge className="bg-green-500">Improving</Badge>}
-                  {data.trend === "down" && <Badge variant="destructive">Needs Help</Badge>}
-                  {data.trend === "neutral" && <Badge variant="outline">Steady</Badge>}
-                </div>
-              </div>
+              </Card>
             ))}
           </div>
-        </Card>
+        </div>
 
         {/* Recommendations */}
         <Card className="p-6">
