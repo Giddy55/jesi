@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { JesiAssistant } from "@/components/jesi/JesiAssistant";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, TrendingDown, Calendar, Target, Award, Clock, BookOpen, Brain, Zap } from "lucide-react";
+import { TrendingUp, TrendingDown, Calendar, Target, Award, Clock, BookOpen, Brain, Zap, Trophy, Flame } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ShsInsights } from "./shs/ShsInsights";
 import { useAuth } from "@/hooks/useAuth";
@@ -200,30 +200,55 @@ export function InsightZone({ userType, user, onZoneChange }: InsightZoneProps) 
 
         {/* Weekly/Monthly Highlights */}
         <Card className="p-6 bg-gradient-to-br from-primary/10 to-accent/10">
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
             <Award className="w-5 h-5 text-yellow-500" />
             {selectedPeriod === "week" ? "This Week's Highlights" : "This Month's Highlights"}
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">{currentStats.streak}</div>
-              <div className="text-sm text-muted-foreground">Day Streak 🔥</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
+            <div className="flex items-center gap-4 sm:flex-col sm:text-center p-4 rounded-lg bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 hover-scale animate-fade-in">
+              <div className="p-3 rounded-full bg-orange-500 text-white">
+                <Flame className="w-6 h-6" />
+              </div>
+              <div className="flex-1 sm:flex-initial">
+                <div className="text-2xl font-bold text-orange-600">{currentStats.streak}</div>
+                <div className="text-sm text-orange-700 font-medium">Day Streak</div>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">{currentStats.lessonsCompleted}</div>
-              <div className="text-sm text-muted-foreground">Lessons Done 📚</div>
+            <div className="flex items-center gap-4 sm:flex-col sm:text-center p-4 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 hover-scale animate-fade-in" style={{ animationDelay: '0.1s' }}>
+              <div className="p-3 rounded-full bg-blue-500 text-white">
+                <BookOpen className="w-6 h-6" />
+              </div>
+              <div className="flex-1 sm:flex-initial">
+                <div className="text-2xl font-bold text-blue-600">{currentStats.lessonsCompleted}</div>
+                <div className="text-sm text-blue-700 font-medium">Lessons Done</div>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">{currentStats.practiceSession}</div>
-              <div className="text-sm text-muted-foreground">Practice Sessions 🎯</div>
+            <div className="flex items-center gap-4 sm:flex-col sm:text-center p-4 rounded-lg bg-gradient-to-br from-green-50 to-green-100 border border-green-200 hover-scale animate-fade-in" style={{ animationDelay: '0.2s' }}>
+              <div className="p-3 rounded-full bg-green-500 text-white">
+                <Target className="w-6 h-6" />
+              </div>
+              <div className="flex-1 sm:flex-initial">
+                <div className="text-2xl font-bold text-green-600">{currentStats.practiceSession}</div>
+                <div className="text-sm text-green-700 font-medium">Practice Sessions</div>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">{currentStats.timeSpent}</div>
-              <div className="text-sm text-muted-foreground">Time Spent ⏰</div>
+            <div className="flex items-center gap-4 sm:flex-col sm:text-center p-4 rounded-lg bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 hover-scale animate-fade-in" style={{ animationDelay: '0.3s' }}>
+              <div className="p-3 rounded-full bg-purple-500 text-white">
+                <Clock className="w-6 h-6" />
+              </div>
+              <div className="flex-1 sm:flex-initial">
+                <div className="text-2xl font-bold text-purple-600">{currentStats.timeSpent}</div>
+                <div className="text-sm text-purple-700 font-medium">Time Spent</div>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">{currentStats.topSubject}</div>
-              <div className="text-sm text-muted-foreground">Top Subject 🏆</div>
+            <div className="flex items-center gap-4 sm:flex-col sm:text-center p-4 rounded-lg bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-200 hover-scale animate-fade-in" style={{ animationDelay: '0.4s' }}>
+              <div className="p-3 rounded-full bg-yellow-500 text-white">
+                <Trophy className="w-6 h-6" />
+              </div>
+              <div className="flex-1 sm:flex-initial">
+                <div className="text-2xl font-bold text-yellow-600">{currentStats.topSubject}</div>
+                <div className="text-sm text-yellow-700 font-medium">Top Subject</div>
+              </div>
             </div>
           </div>
         </Card>
