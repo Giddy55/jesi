@@ -32,26 +32,18 @@ export function InsightZone({ userType, user, onZoneChange }: InsightZoneProps) 
 
   const weeklyScores = {
     math: { 
-      homework: [85, 92, 78, 88], 
-      tests: [90, 85], 
       average: 86,
       trend: "up"
     },
     english: { 
-      homework: [70, 68, 75, 72], 
-      tests: [65, 70], 
       average: 70,
       trend: "down"
     },
     science: { 
-      homework: [95, 88, 92, 90], 
-      tests: [92, 88], 
       average: 91,
       trend: "up"
     },
     social: { 
-      homework: [65, 70, 68, 72], 
-      tests: [70, 68], 
       average: 69,
       trend: "neutral"
     },
@@ -59,26 +51,18 @@ export function InsightZone({ userType, user, onZoneChange }: InsightZoneProps) 
 
   const monthlyScores = {
     math: { 
-      homework: [85, 92, 78, 88, 80, 90, 85, 88, 92, 87, 84, 89], 
-      tests: [90, 85, 88, 82], 
       average: 86,
       trend: "up"
     },
     english: { 
-      homework: [70, 68, 75, 72, 65, 78, 70, 72, 68, 75, 70, 73], 
-      tests: [65, 70, 72, 68], 
       average: 71,
       trend: "up"
     },
     science: { 
-      homework: [95, 88, 92, 90, 85, 90, 92, 88, 95, 90, 88, 92], 
-      tests: [92, 88, 90, 94], 
       average: 90,
       trend: "neutral"
     },
     social: { 
-      homework: [65, 70, 68, 72, 75, 70, 68, 72, 70, 75, 68, 72], 
-      tests: [70, 68, 72, 75], 
       average: 71,
       trend: "up"
     },
