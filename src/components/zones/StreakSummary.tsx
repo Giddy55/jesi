@@ -80,7 +80,6 @@ export function StreakSummary({ dailyProgress, currentStreak, coins = 0 }: Strea
                 <div className="text-3xl sm:text-4xl font-bold tracking-tight" aria-label={`${currentStreak} days current streak`}>
                   {currentStreak}
                 </div>
-                <div className="text-sm text-muted-foreground">day streak</div>
               </div>
             </div>
 
