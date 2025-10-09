@@ -244,29 +244,92 @@ export function InsightZone({ userType, user, onZoneChange }: InsightZoneProps) 
           </div>
         </Card>
 
-        {/* Subject Performance */}
-        <Card className="p-6">
-          <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+        {/* Subject Performance Cards */}
+        <div className="space-y-4 mb-6">
+          <h3 className="text-xl font-semibold flex items-center gap-2">
             <BookOpen className="w-5 h-5 text-primary" />
-            Subject Performance
+            {selectedPeriod === "week" ? "This Week's Scores" : "This Month's Scores"}
           </h3>
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {Object.entries(currentScores).map(([subject, data]) => (
-              <div key={subject} className="flex items-center gap-4">
-                <div className="w-24 capitalize font-medium">{subject}</div>
-                <div className="flex-1">
-                  <Progress value={data.average} className="h-3" />
+              <Card key={subject} className="p-6 hover:shadow-lg transition-all">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="font-semibold capitalize text-lg">{subject}</h4>
+                  <div className="flex items-center gap-2">
+                    {data.trend === "up" && <TrendingUp className="w-5 h-5 text-green-500" />}
+                    {data.trend === "down" && <TrendingDown className="w-5 h-5 text-red-500" />}
+                    <div className="text-2xl font-bold text-primary">{data.average}%</div>
+                  </div>
                 </div>
-                <div className="w-16 text-right font-medium">{data.average}%</div>
-                <div className="w-24">
-                  {data.trend === "up" && <Badge className="bg-green-500">Improving</Badge>}
-                  {data.trend === "down" && <Badge variant="destructive">Needs Help</Badge>}
-                  {data.trend === "neutral" && <Badge variant="outline">Steady</Badge>}
+                
+                <div className="space-y-4">
+                  {/* Homework Scores */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-sm font-medium text-muted-foreground">📝 Homework</span>
+                      <span className="text-xs text-muted-foreground">
+                        ({data.homework.length} assignments)
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {data.homework.map((score, idx) => (
+                        <Badge 
+                          key={idx} 
+                          variant="outline"
+                          className={
+                            score >= 80 
+                              ? "bg-green-500/10 text-green-700 border-green-500/20" 
+                              : score >= 70 
+                              ? "bg-blue-500/10 text-blue-700 border-blue-500/20"
+                              : "bg-yellow-500/10 text-yellow-700 border-yellow-500/20"
+                          }
+                        >
+                          {score}%
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Test Scores */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-sm font-medium text-muted-foreground">📊 Tests</span>
+                      <span className="text-xs text-muted-foreground">
+                        ({data.tests.length} tests)
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {data.tests.map((score, idx) => (
+                        <Badge 
+                          key={idx}
+                          variant="outline"
+                          className={
+                            score >= 80 
+                              ? "bg-green-500/10 text-green-700 border-green-500/20" 
+                              : score >= 70 
+                              ? "bg-blue-500/10 text-blue-700 border-blue-500/20"
+                              : "bg-yellow-500/10 text-yellow-700 border-yellow-500/20"
+                          }
+                        >
+                          {score}%
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Average with Progress Bar */}
+                  <div className="pt-2 border-t">
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="font-medium">Average</span>
+                      <span className="font-bold text-primary">{data.average}%</span>
+                    </div>
+                    <Progress value={data.average} className="h-2" />
+                  </div>
                 </div>
-              </div>
+              </Card>
             ))}
           </div>
-        </Card>
+        </div>
 
         {/* Recommendations */}
         <Card className="p-6">
