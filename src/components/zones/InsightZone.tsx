@@ -214,36 +214,6 @@ export function InsightZone({ userType, user, onZoneChange }: InsightZoneProps) 
           </Button>
         </div>
 
-        {/* Weekly/Monthly Highlights - MOVED TO TOP */}
-        <Card className="p-6 bg-gradient-to-br from-primary/10 to-accent/10">
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Award className="w-5 h-5 text-yellow-500" />
-            {selectedPeriod === "week" ? "This Week's Highlights" : "This Month's Highlights"}
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">{currentStats.streak}</div>
-              <div className="text-sm text-muted-foreground">Day Streak 🔥</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">{currentStats.lessonsCompleted}</div>
-              <div className="text-sm text-muted-foreground">Lessons Done 📚</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">{currentStats.practiceSession}</div>
-              <div className="text-sm text-muted-foreground">Practice Sessions 🎯</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">{currentStats.timeSpent}</div>
-              <div className="text-sm text-muted-foreground">Time Spent ⏰</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">{currentStats.topSubject}</div>
-              <div className="text-sm text-muted-foreground">Top Subject 🏆</div>
-            </div>
-          </div>
-        </Card>
-
         {/* Week's Scores - Homework & Tests */}
         <div className="space-y-4 mb-6">
           <h3 className="text-xl font-semibold flex items-center gap-2">
