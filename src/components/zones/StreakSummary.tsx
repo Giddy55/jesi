@@ -61,6 +61,8 @@ export function StreakSummary({ dailyProgress, currentStreak, coins = 0 }: Strea
 
   const todayMessage = motivationalMessages[today] || motivationalMessages[0];
 
+  const percent = ((today + 1) / 7) * 100;
+
   return (
     <div className="space-y-4">
       <Card className="fun-shadow glow-effect overflow-hidden animate-enter">
@@ -69,6 +71,17 @@ export function StreakSummary({ dailyProgress, currentStreak, coins = 0 }: Strea
             <div className="space-y-1">
               <h2 className="text-xl font-semibold">Weekly Progress</h2>
               <p className="text-muted-foreground text-sm">Track your daily learning journey</p>
+            </div>
+
+            {/* Circular Progress with Streak */}
+            <div className="relative mx-auto max-w-sm">
+              <CircularProgress value={percent} size={180} ariaLabel="Week progress from Sunday to Saturday" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <div className="text-3xl sm:text-4xl font-bold tracking-tight" aria-label={`${currentStreak} days current streak`}>
+                  {currentStreak}
+                </div>
+                <div className="text-sm text-muted-foreground">day streak</div>
+              </div>
             </div>
 
             {/* Week Calendar with 3 color states */}

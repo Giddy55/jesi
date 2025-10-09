@@ -337,7 +337,7 @@ export function StreakZone({ totalCoins = 0, onCoinsUpdate }: StreakZoneProps = 
                               {activity.points} coins
                             </Badge>
                             <Badge variant="outline" className="text-xs">
-                              🔥 {activity.streak} days
+                              {activity.streak}
                             </Badge>
                           </div>
                           
