@@ -36,7 +36,7 @@ export function InsightZone({ userType, user, onZoneChange }: InsightZoneProps) 
       trend: "up"
     },
     english: { 
-      average: 70,
+      average: 25,
       trend: "down"
     },
     science: { 
@@ -55,8 +55,8 @@ export function InsightZone({ userType, user, onZoneChange }: InsightZoneProps) 
       trend: "up"
     },
     english: { 
-      average: 71,
-      trend: "up"
+      average: 25,
+      trend: "down"
     },
     science: { 
       average: 90,
