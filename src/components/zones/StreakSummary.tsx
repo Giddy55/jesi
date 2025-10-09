@@ -94,14 +94,14 @@ export function StreakSummary({ dailyProgress, currentStreak, coins = 0 }: Strea
                   <div key={idx} className="flex flex-col items-center gap-2">
                     <div
                       className={cn(
-                        "w-12 h-12 sm:w-14 sm:h-14 rounded-lg grid place-items-center text-xs font-semibold border-2 transition-all duration-200",
+                        "w-12 h-12 sm:w-14 sm:h-14 rounded-xl grid place-items-center text-xs font-semibold transition-all duration-300",
                         isToday
-                          ? "bg-blue-500 text-white border-blue-600 shadow-lg scale-110 ring-2 ring-blue-300"
+                          ? "bg-primary text-primary-foreground shadow-lg scale-110"
                           : isPast && isUsed
-                          ? "bg-green-500 text-white border-green-600"
+                          ? "bg-primary/20 text-primary border-2 border-primary/30"
                           : isPast && !isUsed
-                          ? "bg-red-100 text-red-600 border-red-300"
-                          : "bg-muted/50 text-muted-foreground border-border"
+                          ? "bg-muted/40 text-muted-foreground/60 border-2 border-muted/60"
+                          : "bg-muted/30 text-muted-foreground/50 border-2 border-muted/40"
                       )}
                       role="status"
                       aria-label={`${d}${isToday ? " (today)" : isPast && isUsed ? " (completed)" : isPast && !isUsed ? " (missed)" : ""}`}
@@ -113,18 +113,18 @@ export function StreakSummary({ dailyProgress, currentStreak, coins = 0 }: Strea
               })}
             </div>
 
-            {/* Legend */}
-            <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground pt-2">
+            {/* Legend - simplified */}
+            <div className="flex items-center justify-center gap-6 text-xs text-muted-foreground pt-2">
               <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded bg-green-500" />
-                <span>Completed</span>
+                <div className="w-3 h-3 rounded bg-primary/20 border-2 border-primary/30" />
+                <span>Done</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded bg-blue-500" />
+                <div className="w-3 h-3 rounded bg-primary" />
                 <span>Today</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded bg-red-100 border border-red-300" />
+                <div className="w-3 h-3 rounded bg-muted/40 border-2 border-muted/60" />
                 <span>Missed</span>
               </div>
             </div>
