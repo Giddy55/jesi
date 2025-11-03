@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { BookOpen, GraduationCap, Target, BarChart3, User, Menu, X, Flame, LogOut, Coins, Home } from "lucide-react";
+import { BookOpen, GraduationCap, Target, BarChart3, User, Menu, X, Flame, LogOut, Coins, Home, Crown } from "lucide-react";
 import coinsIcon from "@/assets/coins-icon.png";
+import { PremiumDialog } from "@/components/ui/premium-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +25,8 @@ interface NavigationProps {
 
 export function Navigation({ activeZone, onZoneChange, userType, user, onLogout, onBackToHome, totalCoins = 0 }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPremiumDialogOpen, setIsPremiumDialogOpen] = useState(false);
+  const isPremium = false; // TODO: Connect to actual premium status
 
   const zones = [
     { id: "class", label: "Class Zone", icon: BookOpen, color: "bg-primary" },
@@ -131,6 +134,20 @@ export function Navigation({ activeZone, onZoneChange, userType, user, onLogout,
                 {zone.label}
               </Button>
             ))}
+            
+            {/* Premium Upgrade Button - Mobile */}
+            {!isPremium && (
+              <Button
+                onClick={() => {
+                  setIsPremiumDialogOpen(true);
+                  setIsMenuOpen(false);
+                }}
+                className="w-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-500 hover:via-yellow-600 hover:to-yellow-700 text-white border-0 mt-3"
+              >
+                <Crown className="w-5 h-5 mr-2" />
+                Upgrade to Premium
+              </Button>
+            )}
           </div>
         </nav>
       )}
@@ -189,6 +206,26 @@ export function Navigation({ activeZone, onZoneChange, userType, user, onLogout,
             </div>
           </div>
 
+          {/* Premium Upgrade Button - Desktop */}
+          <div className="pt-4">
+            {!isPremium ? (
+              <Button
+                onClick={() => setIsPremiumDialogOpen(true)}
+                className="w-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-500 hover:via-yellow-600 hover:to-yellow-700 text-white border-0 h-12 font-semibold shadow-lg"
+              >
+                <Crown className="w-5 h-5 mr-2" />
+                Upgrade to Premium
+              </Button>
+            ) : (
+              <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-white p-3 rounded-xl text-center">
+                <div className="flex items-center justify-center gap-2">
+                  <Crown className="w-5 h-5" />
+                  <span className="font-semibold">Premium Member</span>
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="pt-6 mt-6 border-t">
             <Button
               variant="outline"
@@ -201,6 +238,8 @@ export function Navigation({ activeZone, onZoneChange, userType, user, onLogout,
           </div>
         </div>
       </Card>
+
+      <PremiumDialog open={isPremiumDialogOpen} onOpenChange={setIsPremiumDialogOpen} />
     </>
   );
 }
