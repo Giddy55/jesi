@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Check, Crown, Zap, Star, Sparkles } from "lucide-react";
+import { Check, Crown, Zap, Star, Sparkles, ArrowRight } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface PremiumDialogProps {
   open: boolean;
@@ -9,6 +11,8 @@ interface PremiumDialogProps {
 }
 
 export function PremiumDialog({ open, onOpenChange }: PremiumDialogProps) {
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const { toast } = useToast();
   const features = [
     "Unlimited practice questions",
     "Advanced AI tutor assistance",
@@ -22,6 +26,7 @@ export function PremiumDialog({ open, onOpenChange }: PremiumDialogProps) {
 
   const plans = [
     {
+      id: "monthly",
       name: "Monthly",
       price: "$9.99",
       period: "/month",
@@ -29,6 +34,7 @@ export function PremiumDialog({ open, onOpenChange }: PremiumDialogProps) {
       popular: false
     },
     {
+      id: "yearly",
       name: "Yearly",
       price: "$89.99",
       period: "/year",
@@ -37,6 +43,19 @@ export function PremiumDialog({ open, onOpenChange }: PremiumDialogProps) {
       popular: true
     }
   ];
+
+  const handleProceed = () => {
+    if (!selectedPlan) return;
+    
+    // TODO: Integrate with actual payment system
+    toast({
+      title: "Proceeding to checkout",
+      description: `You selected the ${plans.find(p => p.id === selectedPlan)?.name} plan.`,
+    });
+    
+    // Close dialog after proceeding
+    onOpenChange(false);
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -60,17 +79,25 @@ export function PremiumDialog({ open, onOpenChange }: PremiumDialogProps) {
           <div className="grid md:grid-cols-2 gap-4">
             {plans.map((plan) => (
               <Card
-                key={plan.name}
-                className={`p-6 relative ${
-                  plan.popular
-                    ? "border-primary shadow-lg scale-105"
-                    : "border-border"
+                key={plan.id}
+                onClick={() => setSelectedPlan(plan.id)}
+                className={`p-6 relative cursor-pointer transition-all ${
+                  selectedPlan === plan.id
+                    ? "border-primary shadow-xl ring-2 ring-primary"
+                    : plan.popular
+                    ? "border-primary shadow-lg"
+                    : "border-border hover:border-primary/50"
                 }`}
               >
                 {plan.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
                     <Sparkles className="w-3 h-3" />
                     Most Popular
+                  </div>
+                )}
+                {selectedPlan === plan.id && (
+                  <div className="absolute top-4 right-4 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                    <Check className="w-4 h-4 text-primary-foreground" />
                   </div>
                 )}
                 <div className="text-center mb-4">
@@ -86,12 +113,6 @@ export function PremiumDialog({ open, onOpenChange }: PremiumDialogProps) {
                     </div>
                   )}
                 </div>
-                <Button
-                  className="w-full"
-                  variant={plan.popular ? "default" : "outline"}
-                >
-                  Choose Plan
-                </Button>
               </Card>
             ))}
           </div>
@@ -110,6 +131,25 @@ export function PremiumDialog({ open, onOpenChange }: PremiumDialogProps) {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Proceed Button */}
+          <div className="pt-4">
+            <Button
+              onClick={handleProceed}
+              disabled={!selectedPlan}
+              className="w-full h-12 text-base font-semibold"
+              size="lg"
+            >
+              {selectedPlan ? (
+                <>
+                  Proceed to Checkout
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </>
+              ) : (
+                "Select a plan to continue"
+              )}
+            </Button>
           </div>
 
           {/* Trust badges */}
