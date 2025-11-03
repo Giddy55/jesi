@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Check, Crown, Zap, Star, Sparkles, ArrowRight, CreditCard } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 
 interface PremiumDialogProps {
   open: boolean;
@@ -23,6 +24,7 @@ export function PremiumDialog({ open, onOpenChange }: PremiumDialogProps) {
     cvv: "",
   });
   const { toast } = useToast();
+  const { setPremiumStatus } = useAuth();
   const features = [
     "Unlimited practice questions",
     "Advanced AI tutor assistance",
@@ -61,6 +63,9 @@ export function PremiumDialog({ open, onOpenChange }: PremiumDialogProps) {
 
   const handleSubmitPayment = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Set premium status
+    setPremiumStatus(true);
     
     // TODO: Integrate with actual payment system
     toast({

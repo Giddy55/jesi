@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-
+import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
-import { Mail, User, LogOut, GraduationCap } from "lucide-react";
+import { Mail, User, LogOut, GraduationCap, Crown } from "lucide-react";
 
 interface ProfilePanelProps {
   user?: any;
@@ -40,8 +40,15 @@ export function ProfilePanel({ user, onLogout }: ProfilePanelProps) {
               <Avatar className="w-10 h-10">
                 <AvatarFallback>{initials}</AvatarFallback>
               </Avatar>
-              <div>
-                <div className="font-medium">{user.name}</div>
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <div className="font-medium">{user.name}</div>
+                  {user.isPremium && (
+                    <Badge className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white border-0 px-1.5 py-0 text-xs">
+                      <Crown className="w-3 h-3" />
+                    </Badge>
+                  )}
+                </div>
                 <div className="text-xs text-muted-foreground capitalize">{user.type || "student"}</div>
               </div>
             </div>

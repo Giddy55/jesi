@@ -26,7 +26,7 @@ interface NavigationProps {
 export function Navigation({ activeZone, onZoneChange, userType, user, onLogout, onBackToHome, totalCoins = 0 }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPremiumDialogOpen, setIsPremiumDialogOpen] = useState(false);
-  const isPremium = false; // TODO: Connect to actual premium status
+  const isPremium = user?.isPremium || false;
 
   const zones = [
     { id: "class", label: "Class Zone", icon: BookOpen, color: "bg-primary" },

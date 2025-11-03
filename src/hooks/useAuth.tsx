@@ -6,6 +6,7 @@ interface User {
   type: UserType;
   name: string;
   email: string;
+  isPremium?: boolean;
   [key: string]: any;
 }
 
@@ -14,6 +15,7 @@ interface AuthContextType {
   login: (userType: UserType, userData: any) => void;
   logout: () => void;
   isAuthenticated: boolean;
+  setPremiumStatus: (isPremium: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -43,11 +45,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("eduzone-user");
   };
 
+  const setPremiumStatus = (isPremium: boolean) => {
+    if (user) {
+      const updatedUser = { ...user, isPremium };
+      setUser(updatedUser);
+      localStorage.setItem("eduzone-user", JSON.stringify(updatedUser));
+    }
+  };
+
   const value = {
     user,
     login,
     logout,
-    isAuthenticated: !!user
+    isAuthenticated: !!user,
+    setPremiumStatus
   };
 
   return (
