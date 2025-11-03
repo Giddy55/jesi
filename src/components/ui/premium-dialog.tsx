@@ -2,7 +2,9 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Check, Crown, Zap, Star, Sparkles, ArrowRight } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Check, Crown, Zap, Star, Sparkles, ArrowRight, CreditCard } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface PremiumDialogProps {
@@ -12,6 +14,14 @@ interface PremiumDialogProps {
 
 export function PremiumDialog({ open, onOpenChange }: PremiumDialogProps) {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [step, setStep] = useState<"plan" | "billing">("plan");
+  const [billingData, setBillingData] = useState({
+    name: "",
+    email: "",
+    cardNumber: "",
+    expiryDate: "",
+    cvv: "",
+  });
   const { toast } = useToast();
   const features = [
     "Unlimited practice questions",
@@ -46,15 +56,33 @@ export function PremiumDialog({ open, onOpenChange }: PremiumDialogProps) {
 
   const handleProceed = () => {
     if (!selectedPlan) return;
+    setStep("billing");
+  };
+
+  const handleSubmitPayment = (e: React.FormEvent) => {
+    e.preventDefault();
     
     // TODO: Integrate with actual payment system
     toast({
-      title: "Proceeding to checkout",
-      description: `You selected the ${plans.find(p => p.id === selectedPlan)?.name} plan.`,
+      title: "Payment successful!",
+      description: "Your premium subscription is now active.",
     });
     
-    // Close dialog after proceeding
+    // Reset and close
+    setStep("plan");
+    setSelectedPlan(null);
+    setBillingData({
+      name: "",
+      email: "",
+      cardNumber: "",
+      expiryDate: "",
+      cvv: "",
+    });
     onOpenChange(false);
+  };
+
+  const handleBack = () => {
+    setStep("plan");
   };
 
   return (
@@ -63,18 +91,28 @@ export function PremiumDialog({ open, onOpenChange }: PremiumDialogProps) {
         <DialogHeader>
           <div className="flex items-center justify-center mb-4">
             <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 via-yellow-500 to-yellow-600 rounded-full flex items-center justify-center">
-              <Crown className="w-8 h-8 text-white" />
+              {step === "plan" ? (
+                <Crown className="w-8 h-8 text-white" />
+              ) : (
+                <CreditCard className="w-8 h-8 text-white" />
+              )}
             </div>
           </div>
           <DialogTitle className="text-2xl text-center">
-            Upgrade to Premium
+            {step === "plan" ? "Upgrade to Premium" : "Billing Details"}
           </DialogTitle>
           <DialogDescription className="text-center text-base">
-            Unlock the full potential of your learning journey
+            {step === "plan" 
+              ? "Unlock the full potential of your learning journey"
+              : "Enter your payment information to complete subscription"
+            }
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6 mt-6">
+          {step === "plan" ? (
+            // Plan Selection Step
+            <>
           {/* Plans */}
           <div className="grid md:grid-cols-2 gap-4">
             {plans.map((plan) => (
@@ -152,10 +190,106 @@ export function PremiumDialog({ open, onOpenChange }: PremiumDialogProps) {
             </Button>
           </div>
 
-          {/* Trust badges */}
-          <div className="text-center text-sm text-muted-foreground">
-            <p>✓ Cancel anytime • ✓ 7-day money-back guarantee</p>
-          </div>
+            {/* Trust badges */}
+            <div className="text-center text-sm text-muted-foreground">
+              <p>✓ Cancel anytime • ✓ 7-day money-back guarantee</p>
+            </div>
+            </>
+          ) : (
+            // Billing Details Step
+            <>
+              <form onSubmit={handleSubmitPayment} className="space-y-4">
+                <div className="bg-muted/50 rounded-lg p-4 mb-4">
+                  <p className="text-sm font-medium">
+                    Selected Plan: {plans.find(p => p.id === selectedPlan)?.name}
+                  </p>
+                  <p className="text-2xl font-bold mt-1">
+                    {plans.find(p => p.id === selectedPlan)?.price}
+                    <span className="text-sm text-muted-foreground">
+                      {plans.find(p => p.id === selectedPlan)?.period}
+                    </span>
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="name">Full Name</Label>
+                    <Input
+                      id="name"
+                      placeholder="John Doe"
+                      required
+                      value={billingData.name}
+                      onChange={(e) => setBillingData({...billingData, name: e.target.value})}
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="john@example.com"
+                      required
+                      value={billingData.email}
+                      onChange={(e) => setBillingData({...billingData, email: e.target.value})}
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="cardNumber">Card Number</Label>
+                    <Input
+                      id="cardNumber"
+                      placeholder="1234 5678 9012 3456"
+                      required
+                      value={billingData.cardNumber}
+                      onChange={(e) => setBillingData({...billingData, cardNumber: e.target.value})}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="expiryDate">Expiry Date</Label>
+                      <Input
+                        id="expiryDate"
+                        placeholder="MM/YY"
+                        required
+                        value={billingData.expiryDate}
+                        onChange={(e) => setBillingData({...billingData, expiryDate: e.target.value})}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="cvv">CVV</Label>
+                      <Input
+                        id="cvv"
+                        placeholder="123"
+                        required
+                        value={billingData.cvv}
+                        onChange={(e) => setBillingData({...billingData, cvv: e.target.value})}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleBack}
+                    className="flex-1"
+                  >
+                    Back
+                  </Button>
+                  <Button type="submit" className="flex-1">
+                    Complete Payment
+                  </Button>
+                </div>
+              </form>
+
+              <div className="text-center text-sm text-muted-foreground">
+                <p>🔒 Secure payment processing</p>
+              </div>
+            </>
+          )}
         </div>
       </DialogContent>
     </Dialog>
