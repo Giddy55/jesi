@@ -46,12 +46,20 @@ export function Navigation({ activeZone, onZoneChange, userType, user, onLogout,
       
       {/* Mobile Header */}
       <div className="lg:hidden bg-white shadow-sm p-4 flex items-center justify-between" role="banner">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center">
-            <span className="text-white font-bold text-sm">J</span>
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-sm">J</span>
+            </div>
+            <div>
+              <h1 className="text-lg font-bold text-primary">Jesi AI</h1>
+              {isPremium && (
+                <div className="flex items-center gap-1 text-xs text-yellow-600 font-semibold">
+                  <Crown className="w-3 h-3" />
+                  Premium
+                </div>
+              )}
+            </div>
           </div>
-          <h1 className="text-lg font-bold text-primary">Jesi AI</h1>
-        </div>
         
         <div className="flex items-center gap-3">
           {/* Coins Display - Mobile */}
@@ -135,8 +143,15 @@ export function Navigation({ activeZone, onZoneChange, userType, user, onLogout,
               </Button>
             ))}
             
-            {/* Premium Upgrade Button - Mobile */}
-            {!isPremium && (
+            {/* Premium Status - Mobile */}
+            {isPremium ? (
+              <div className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-white p-3 rounded-xl text-center mt-3">
+                <div className="flex items-center justify-center gap-2">
+                  <Crown className="w-5 h-5" />
+                  <span className="font-semibold">Premium Member</span>
+                </div>
+              </div>
+            ) : (
               <Button
                 onClick={() => {
                   setIsPremiumDialogOpen(true);
@@ -161,7 +176,14 @@ export function Navigation({ activeZone, onZoneChange, userType, user, onLogout,
             </div>
             <div>
               <h1 className="text-xl font-bold text-primary">Jesi AI</h1>
-              <p className="text-sm text-muted-foreground">Learning Platform</p>
+              {isPremium ? (
+                <div className="flex items-center gap-1 text-sm text-yellow-600 font-semibold">
+                  <Crown className="w-4 h-4" />
+                  Premium Member
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground">Learning Platform</p>
+              )}
             </div>
           </div>
 
