@@ -200,15 +200,28 @@ export function PremiumDialog({ open, onOpenChange }: PremiumDialogProps) {
             <>
               <form onSubmit={handleSubmitPayment} className="space-y-4">
                 <div className="bg-muted/50 rounded-lg p-4 mb-4">
-                  <p className="text-sm font-medium">
-                    Selected Plan: {plans.find(p => p.id === selectedPlan)?.name}
-                  </p>
-                  <p className="text-2xl font-bold mt-1">
-                    {plans.find(p => p.id === selectedPlan)?.price}
-                    <span className="text-sm text-muted-foreground">
-                      {plans.find(p => p.id === selectedPlan)?.period}
-                    </span>
-                  </p>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium">
+                        Selected Plan: {plans.find(p => p.id === selectedPlan)?.name}
+                      </p>
+                      <p className="text-2xl font-bold mt-1">
+                        {plans.find(p => p.id === selectedPlan)?.price}
+                        <span className="text-sm text-muted-foreground">
+                          {plans.find(p => p.id === selectedPlan)?.period}
+                        </span>
+                      </p>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="text-primary hover:text-primary"
+                    >
+                      Change Plan
+                    </Button>
+                  </div>
                 </div>
 
                 <div className="space-y-4">
